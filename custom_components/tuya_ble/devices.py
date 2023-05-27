@@ -153,6 +153,14 @@ class TuyaBLECategoryInfo:
 
 
 devices_database: dict[str, TuyaBLECategoryInfo] = {
+    "sfkzq": TuyaBLECategoryInfo(
+        products={
+            "nxquc5lb":  # device product_id
+            TuyaBLEProductInfo(
+                name="Smart Water Timer",
+            ),
+        },
+    ),
     "co2bj": TuyaBLECategoryInfo(
         products={
             "59s19z5m":  # device product_id
