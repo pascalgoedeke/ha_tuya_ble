@@ -104,6 +104,20 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
         products={
             "nxquc5lb":  # CO2 Detector
             [
+                TuyaBLESensorMapping(
+                    dp_id=1,
+                    description=SensorEntityDescription(
+                        key="carbon_dioxide_alarm",
+                        icon="mdi:molecule-co2",
+                        device_class=SensorDeviceClass.ENUM,
+                        options=[
+                            CO2_LEVEL_ALARM,
+                            CO2_LEVEL_NORMAL,
+                        ],
+                    ),
+                    is_available=is_co2_alarm_enabled,
+                ),
+                TuyaBLETemperatureMapping(dp_id=18),
                 TuyaBLEBatteryMapping(dp_id=7),
             ]
         }
