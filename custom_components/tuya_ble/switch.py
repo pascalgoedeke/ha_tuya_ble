@@ -77,7 +77,7 @@ class TuyaBLECategorySwitchMapping:
 mapping: dict[str, TuyaBLECategorySwitchMapping] = {
     "sfkzq": TuyaBLECategorySwitchMapping(
         products={
-            "nxquc5lb":  # Smart Water Timer
+            "nxquc5lb":  # Smart Water Valve
             [
                 TuyaBLESwitchMapping(
                     dp_id=1,
