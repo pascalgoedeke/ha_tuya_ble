@@ -111,24 +111,6 @@ class TuyaBLECategoryNumberMapping:
 
 
 mapping: dict[str, TuyaBLECategoryNumberMapping] = {
-    "sfkzq": TuyaBLECategoryNumberMapping(
-        products={
-            "nxquc5lb":  # Smart Water Valve
-            [
-                TuyaBLENumberMapping(
-                    dp_id=7,
-                    description=NumberEntityDescription(
-                        key="battery_percentage",
-                        native_max_value=100,
-                        native_min_value=100,
-                        native_unit_of_measurement=PERCENTAGE,
-                        native_step=1,
-                        entity_category=EntityCategory.DIAGNOSTIC,
-                    ),
-                ),
-            ]
-        }
-    ),
     "co2bj": TuyaBLECategoryNumberMapping(
         products={
             "59s19z5m":  # CO2 Detector

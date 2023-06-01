@@ -105,17 +105,7 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
             "nxquc5lb":  # Smart Water Valve
             [
                 TuyaBLEBatteryMapping(dp_id=7),
-                TuyaBLESensorMapping(
-                    dp_id=7,
-                    description=SensorEntityDescription(
-                        key="battery_percentage",
-                        icon="mdi:molecule-co2",
-                        device_class=SensorDeviceClass.BATTERY,
-                        native_unit_of_measurement=PERCENTAGE,
-                        entity_category=EntityCategory.DIAGNOSTIC,
-                        state_class=SensorStateClass.MEASUREMENT,
-                    ),
-                ),
+                
             ]
         }
     ),
