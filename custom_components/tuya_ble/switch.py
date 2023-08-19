@@ -331,6 +331,7 @@ mapping: dict[str, TuyaBLECategorySwitchMapping] = {
                     dp_id=105,
                     description=SwitchEntityDescription(
                         key="water_valve_1",
+                        name="CH1 Valve",
                         entity_registry_enabled_default=True,
                     ),
                 ),
@@ -338,6 +339,7 @@ mapping: dict[str, TuyaBLECategorySwitchMapping] = {
                     dp_id=104,
                     description=SwitchEntityDescription(
                         key="water_valve_2",
+                        name="CH2 Valve",
                         entity_registry_enabled_default=True,
                     ),
                 ),
