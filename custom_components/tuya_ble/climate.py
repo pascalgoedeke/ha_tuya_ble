@@ -259,7 +259,7 @@ class TuyaBLEClimate(TuyaBLEEntity, ClimateEntity):
         """Set new target temperature."""
         if self._mapping.target_temperature_dp_id != 0:
             int_value = int(
-                kwargs["temperature"] * self._mapping.target_temperature_coefficient
+                kwargs["temperature"] * self._mapping.target_temperature_step
             )
             datapoint = self._device.datapoints.get_or_create(
                 self._mapping.target_temperature_dp_id,
