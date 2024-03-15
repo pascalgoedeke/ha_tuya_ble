@@ -54,7 +54,12 @@ class TuyaBLECategoryBinarySensorMapping:
 mapping: dict[str, TuyaBLECategoryBinarySensorMapping] = {
     "wk": TuyaBLECategoryBinarySensorMapping(
         products={
-            "drlajpqc": [  # Thermostatic Radiator Valve
+            **dict.fromkeys(
+            [
+            "drlajpqc",
+            "nhj2j7su",
+            "zmachryv",
+            ], [ # Thermostatic Radiator Valve
                 TuyaBLEBinarySensorMapping(
                     dp_id=105,
                     description=BinarySensorEntityDescription(
@@ -63,8 +68,8 @@ mapping: dict[str, TuyaBLECategoryBinarySensorMapping] = {
                         device_class=BinarySensorDeviceClass.BATTERY,
                         entity_category=EntityCategory.DIAGNOSTIC,
                     ),
-                ),
-            ],
+                )],
+            ),
         },
     ),
 }
