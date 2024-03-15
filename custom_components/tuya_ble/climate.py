@@ -261,7 +261,7 @@ class TuyaBLEClimate(TuyaBLEEntity, ClimateEntity):
             int_value = int(
                 kwargs["temperature"] * 2
             )
-            _LOGGER.debug(int_value)
+            _LOGGER.error(int_value)
             datapoint = self._device.datapoints.get_or_create(
                 self._mapping.target_temperature_dp_id,
                 TuyaBLEDataPointType.DT_VALUE,
