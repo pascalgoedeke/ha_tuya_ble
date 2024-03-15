@@ -505,13 +505,12 @@ class TuyaBLEDevice:
             self.address,
             self.rssi,
         )
-        if was_paired:
-            _LOGGER.debug(
-                "%s: Scheduling reconnect; RSSI: %s",
-                self.address,
-                self.rssi,
-            )
-            asyncio.create_task(self._reconnect())
+        _LOGGER.debug(
+            "%s: Scheduling reconnect; RSSI: %s",
+            self.address,
+            self.rssi,
+        )
+        asyncio.create_task(self._reconnect())
 
     def _disconnect(self) -> None:
         """Disconnect from device."""
