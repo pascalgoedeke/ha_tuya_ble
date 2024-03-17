@@ -33,6 +33,9 @@ The integration works locally, but connection to Tuya BLE device requires device
 * Temperature and humidity sensors (category_id 'wsdcg')
   + Soil moisture sensor (product_id 'ojzlzzsw').
 
+* Temperature and humidity sensors (category_id 'zwjcy')
+  + Smartlife Plant Sensor SGS01 (product_id 'gvygg3m8').
+
 * CO2 sensors (category_id 'co2bj')
   + CO2 Detector (product_id '59s19z5m').
 
