@@ -355,7 +355,8 @@ mapping: dict[str, TuyaBLECategoryNumberMapping] = {
         products={
             **dict.fromkeys(
                 [
-                    "mknd4lci"
+                    "mknd4lci",
+                    "riecov42"
                 ],  # Fingerbot Plus
                 [
                     TuyaBLENumberMapping(
