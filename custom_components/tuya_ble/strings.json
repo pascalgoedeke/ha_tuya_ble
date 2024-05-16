@@ -32,6 +32,9 @@
     "button": {
       "push": {
         "name": "Push"
+      },
+      "bluetooth_unlock": {
+        "name": "Unlock"
       }
     },
     "number": {
