@@ -52,6 +52,14 @@ class TuyaBLEFingerbotModeMapping(TuyaBLEButtonMapping):
     )
     is_available: TuyaBLEButtonIsAvailable = is_fingerbot_in_push_mode
 
+@dataclass
+class TuyaBLELockMapping(TuyaBLEButtonMapping):
+    description: ButtonEntityDescription = field(
+        default_factory=lambda: ButtonEntityDescription(
+            key="push",
+        )
+    )
+    is_available: TuyaBLEButtonIsAvailable = 0
 
 @dataclass
 class TuyaBLECategoryButtonMapping:
@@ -112,7 +120,7 @@ mapping: dict[str, TuyaBLECategoryButtonMapping] = {
           products={
              "okkyfgfs": # Smart Lock
              [
-                 TuyaBLEButtonMapping(
+                 TuyaBLELockMapping(
                      dp_id=6,
                      description=ButtonEntityDescription(
                          key="bluetooth_unlock",
@@ -160,7 +168,11 @@ class TuyaBLEButton(TuyaBLEEntity, ButtonEntity):
             False,
         )
         if datapoint:
-            self._hass.create_task(datapoint.set_value(not bool(datapoint.value)))
+            if self._product.lock:
+                 #Lock needs true to activate lock/unlock commands
+                 self._hass.create_task(datapoint.set_value(True))
+             else:
+                 self._hass.create_task(datapoint.set_value(not bool(datapoint.value)))
 
     @property
     def available(self) -> bool:
