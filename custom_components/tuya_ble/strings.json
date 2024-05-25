@@ -95,6 +95,9 @@
     "binary_sensor": {
       "low_battery": {
         "name": "[%key:component::sensor::entity_component::battery::name%]"
+      },
+      "lock_motor_state": {
+          "name": "Motor State"
       }
     },
     "sensor": {
