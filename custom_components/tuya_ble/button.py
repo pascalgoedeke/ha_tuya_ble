@@ -169,10 +169,10 @@ class TuyaBLEButton(TuyaBLEEntity, ButtonEntity):
         )
         if datapoint:
             if self._product.lock:
-                 #Lock needs true to activate lock/unlock commands
-                 self._hass.create_task(datapoint.set_value(True))
-             else:
-                 self._hass.create_task(datapoint.set_value(not bool(datapoint.value)))
+                #Lock needs true to activate lock/unlock commands
+                self._hass.create_task(datapoint.set_value(True))
+            else:
+                self._hass.create_task(datapoint.set_value(not bool(datapoint.value)))
 
     @property
     def available(self) -> bool:
