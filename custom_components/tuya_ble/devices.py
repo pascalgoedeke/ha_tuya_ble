@@ -174,6 +174,14 @@ class TuyaBLECategoryInfo:
 
 
 devices_database: dict[str, TuyaBLECategoryInfo] = {
+    "sfkzq": TuyaBLECategoryInfo(
+        products={
+            "nxquc5lb":  # device product_id
+            TuyaBLEProductInfo(
+                name="Smart Water Valve",
+            ),
+        },
+    ),
     "co2bj": TuyaBLECategoryInfo(
         products={
             "59s19z5m": TuyaBLEProductInfo(  # device product_id

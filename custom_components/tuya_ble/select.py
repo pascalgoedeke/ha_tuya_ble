@@ -66,6 +66,26 @@ class TuyaBLECategorySelectMapping:
 
 
 mapping: dict[str, TuyaBLECategorySelectMapping] = {
+    "sfkzq": TuyaBLECategorySelectMapping(
+        products={
+            "nxquc5lb":  # Smart Water Valve
+            [
+                TuyaBLESelectMapping(
+                    dp_id=10,
+                    description=SelectEntityDescription(
+                        key="weather_delay",
+                        options=[
+                            "cancel",
+                            "24h",
+                            "48h",
+                            "72h",
+                        ],
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                ),
+            ]
+        }
+    ),
     "co2bj": TuyaBLECategorySelectMapping(
         products={
             "59s19z5m":  # CO2 Detector
