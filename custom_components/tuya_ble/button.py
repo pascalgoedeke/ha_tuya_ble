@@ -108,19 +108,6 @@ mapping: dict[str, TuyaBLECategoryButtonMapping] = {
             ],
         },
     ),
-    "ms": TuyaBLECategoryButtonMapping(
-         products={
-            "okkyfgfs": # Smart Lock
-            [
-                TuyaBLEButtonMapping(
-                    dp_id=6,
-                    description=ButtonEntityDescription(
-                        key="bluetooth_unlock",
-                    ),
-                ),
-            ],
-         },
-     ),
 }
 
 
