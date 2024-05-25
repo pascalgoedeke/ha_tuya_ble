@@ -464,7 +464,7 @@ mapping: dict[str, TuyaBLECategoryNumberMapping] = {
     ),
     "ggq": TuyaBLECategoryNumberMapping(
         products={
-            "6pahkcau": [  # Irrigation computer
+            "6pahkcau": [  # Irrigation computer PARKSIDE PPB A1
                 TuyaBLENumberMapping(
                     dp_id=5,
                     description=NumberEntityDescription(
@@ -473,6 +473,32 @@ mapping: dict[str, TuyaBLECategoryNumberMapping] = {
                         native_max_value=1440,
                         native_min_value=1,
                         native_unit_of_measurement=UnitOfTime.MINUTES,
+                        native_step=1,
+                    ),
+                ),
+            ],
+            "hfgdqhho": [  # Irrigation computer SGW08
+                TuyaBLENumberMapping(
+                    dp_id=106,
+                    description=NumberEntityDescription(
+                        key="countdown_duration_1",
+                        name="CH1 Countdown",
+                        icon="mdi:timer",
+                        native_max_value=1440,
+                        native_min_value=1,
+                        native_unit_of_measurement=TIME_MINUTES,
+                        native_step=1,
+                    ),
+                ),
+                TuyaBLENumberMapping(
+                    dp_id=103,
+                    description=NumberEntityDescription(
+                        key="countdown_duration_2",
+                        name="CH2 Countdown",
+                        icon="mdi:timer",
+                        native_max_value=1440,
+                        native_min_value=1,
+                        native_unit_of_measurement=TIME_MINUTES,
                         native_step=1,
                     ),
                 ),
