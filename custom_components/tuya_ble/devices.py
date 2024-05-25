@@ -191,13 +191,14 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
     ),
     "ms": TuyaBLECategoryInfo(
         products={
-            "ludzroix":
-            TuyaBLEProductInfo(
-                name="Smart Lock",
-            ),
-            "isk2p555":
-            TuyaBLEProductInfo(
-                name="Smart Lock",
+            **dict.fromkeys(
+                 [
+                     "ludzroix",
+                     "isk2p555"
+                 ],
+                     TuyaBLEProductInfo(  # device product_id
+                     name="Smart Lock",
+                 ),
             ),
             "okkyfgfs":
             TuyaBLEProductInfo(
