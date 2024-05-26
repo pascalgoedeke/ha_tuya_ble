@@ -5,7 +5,9 @@
 This integration supports Tuya devices connected via BLE.
 
 _Inspired by code of [@redphx](https://github.com/redphx/poc-tuya-ble-fingerbot)_
+
 _Original HASS component forked from https://github.com/PlusPlus-ua/ha_tuya_ble_
+
 _This forks base is from https://github.com/markusg1234/ha_tuya_ble_
 
 
@@ -58,6 +60,8 @@ The integration works locally, but connection to Tuya BLE device requires device
 
 ## Support project
 _The following is a comment from the original developer which deserves to stay_
+
+
 I am working on this integration in Ukraine. Our country was subjected to brutal aggression by Russia. The war still continues. The capital of Ukraine - Kyiv, where I live, and many other cities and villages are constantly under threat of rocket attacks. Our air defense forces are doing wonders, but they also need support. So if you want to help the development of this integration, donate some money and I will spend it to support our air defense.
 <br><br>
 <p align="center">
