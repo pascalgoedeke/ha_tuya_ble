@@ -50,6 +50,7 @@ The integration works locally, but connection to Tuya BLE device requires device
 
 * Irrigation computer (category_id 'ggq')
   + Irrigation computer (product_id '6pahkcau')
+  + 2-outlet irrigation computer SGW02 (product_id 'hfgdqhho'), also known as MOES BWV-YC02-EU-GY
 
 ## Support project
 
