@@ -294,9 +294,14 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
     ),
     "ggq": TuyaBLECategoryInfo(
         products={
-            "6pahkcau":  # device product_id
-            TuyaBLEProductInfo(
-                name="Irrigation computer",
+            **dict.fromkeys(
+                [
+                "6pahkcau", 
+                "hfgdqhho",
+                ],  # device product_id
+                TuyaBLEProductInfo( 
+                    name="Irrigation computer",
+                ),
             ),
         },
     ),
