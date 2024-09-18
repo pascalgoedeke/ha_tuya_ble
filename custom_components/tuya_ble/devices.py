@@ -54,7 +54,7 @@ class TuyaBLEProductInfo:
     name: str
     manufacturer: str = DEVICE_DEF_MANUFACTURER
     fingerbot: TuyaBLEFingerbotInfo | None = None
-
+    lock: int | None = None
 
 class TuyaBLEEntity(CoordinatorEntity):
     """Tuya BLE base entity."""
@@ -174,6 +174,14 @@ class TuyaBLECategoryInfo:
 
 
 devices_database: dict[str, TuyaBLECategoryInfo] = {
+    "sfkzq": TuyaBLECategoryInfo(
+        products={
+            "nxquc5lb":  # device product_id
+            TuyaBLEProductInfo(
+                name="Smart Water Valve",
+            ),
+        },
+    ),
     "co2bj": TuyaBLECategoryInfo(
         products={
             "59s19z5m": TuyaBLEProductInfo(  # device product_id
@@ -186,11 +194,18 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
             **dict.fromkeys(
                 [
                     "ludzroix",
-                    "isk2p555"
-                ],
-                    TuyaBLEProductInfo(  # device product_id
-                    name="Smart Lock",
-                ),
+                    "isk2p555",
+                    "gumrixyt",
+                    "uamrw6h3"
+                 ],
+                     TuyaBLEProductInfo(  # device product_id
+                     name="Smart Lock",
+                 ),
+            ),
+            "okkyfgfs":
+            TuyaBLEProductInfo(
+                name="TEKXDD Fingerprint Smart Lock",
+                lock=1,
             ),
         },
     ),
@@ -222,7 +237,7 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
                 [
                     "blliqpsj",
                     "ndvkgsrm",
-                    "yiihr7zh", 
+                    "yiihr7zh",
                     "neq16kgd"
                 ],  # device product_ids
                 TuyaBLEProductInfo(
@@ -264,14 +279,38 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
             ),
         },
     ),
+    "kg": TuyaBLECategoryInfo(
+        products={
+            **dict.fromkeys(
+                [
+                    "mknd4lci",
+                    "riecov42"
+                ],  # device product_ids
+                TuyaBLEProductInfo(
+                    name="Fingerbot Plus",
+                    fingerbot=TuyaBLEFingerbotInfo(
+                        switch=1,
+                        mode=101,
+                        up_position=106,
+                        down_position=102,
+                        hold_time=103,
+                        reverse_positions=104,
+                        manual_control=107,
+                        program=109,
+                    ),
+                ),
+            ),
+        },
+    ),
     "wk": TuyaBLECategoryInfo(
         products={
             **dict.fromkeys(
             [
-            "drlajpqc", 
+            "drlajpqc",
             "nhj2j7su",
+            "zmachryv",
             ],  # device product_id
-            TuyaBLEProductInfo(  
+            TuyaBLEProductInfo(
                 name="Thermostatic Radiator Valve",
                 ),
             ),
@@ -281,6 +320,9 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
         products={
             "ojzlzzsw": TuyaBLEProductInfo(  # device product_id
                 name="Soil moisture sensor",
+            ),
+            "tv6peegl": TuyaBLEProductInfo(  # new device product_id
+                name="Soil Thermo-Hygrometer",
             ),
         },
     ),
@@ -296,13 +338,13 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
         products={
             **dict.fromkeys(
                 [
-                "6pahkcau", 
-                "hfgdqhho",
-                ],  # device product_id
-                TuyaBLEProductInfo( 
+                    "6pahkcau",  # PPB A1
+                    "hfgdqhho"   # SGW08
+                ],
+                TuyaBLEProductInfo(
                     name="Irrigation computer",
-                ),
-            ),
+                )
+            )
         },
     ),
 }

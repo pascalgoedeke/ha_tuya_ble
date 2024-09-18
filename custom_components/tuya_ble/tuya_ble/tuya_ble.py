@@ -491,13 +491,13 @@ class TuyaBLEDevice:
         """Disconnected callback."""
         was_paired = self._is_paired
         self._is_paired = False
-        self._fire_disconnected_callbacks()
         if self._expected_disconnect:
             _LOGGER.debug(
                 "%s: Disconnected from device; RSSI: %s",
                 self.address,
                 self.rssi,
             )
+            self._fire_disconnected_callbacks()
             return
         self._client = None
         _LOGGER.warning(
@@ -505,13 +505,12 @@ class TuyaBLEDevice:
             self.address,
             self.rssi,
         )
-        if was_paired:
-            _LOGGER.debug(
-                "%s: Scheduling reconnect; RSSI: %s",
-                self.address,
-                self.rssi,
-            )
-            asyncio.create_task(self._reconnect())
+        _LOGGER.debug(
+            "%s: Scheduling reconnect; RSSI: %s",
+            self.address,
+            self.rssi,
+        )
+        asyncio.create_task(self._reconnect())
 
     def _disconnect(self) -> None:
         """Disconnect from device."""

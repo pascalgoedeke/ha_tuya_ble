@@ -52,6 +52,14 @@ class TuyaBLEFingerbotModeMapping(TuyaBLEButtonMapping):
     )
     is_available: TuyaBLEButtonIsAvailable = is_fingerbot_in_push_mode
 
+@dataclass
+class TuyaBLELockMapping(TuyaBLEButtonMapping):
+    description: ButtonEntityDescription = field(
+        default_factory=lambda: ButtonEntityDescription(
+            key="push",
+        )
+    )
+    is_available: TuyaBLEButtonIsAvailable = 0
 
 @dataclass
 class TuyaBLECategoryButtonMapping:
@@ -72,7 +80,7 @@ mapping: dict[str, TuyaBLECategoryButtonMapping] = {
                 [
                     "blliqpsj",
                     "ndvkgsrm",
-                    "yiihr7zh", 
+                    "yiihr7zh",
                     "neq16kgd"
                 ],  # Fingerbot Plus
                 [
@@ -95,6 +103,19 @@ mapping: dict[str, TuyaBLECategoryButtonMapping] = {
             ),
         },
     ),
+    "kg": TuyaBLECategoryButtonMapping(
+        products={
+            **dict.fromkeys(
+                [
+                    "mknd4lci",
+                    "riecov42"
+                ],  # Fingerbot Plus
+                [
+                    TuyaBLEFingerbotModeMapping(dp_id=108),
+                ],
+            ),
+        },
+    ),
     "znhsb": TuyaBLECategoryButtonMapping(
         products={
             "cdlandip":  # Smart water bottle
@@ -108,6 +129,19 @@ mapping: dict[str, TuyaBLECategoryButtonMapping] = {
             ],
         },
     ),
+    "ms": TuyaBLECategoryButtonMapping(
+          products={
+             "okkyfgfs": # Smart Lock
+             [
+                 TuyaBLELockMapping(
+                     dp_id=6,
+                     description=ButtonEntityDescription(
+                         key="bluetooth_unlock",
+                     ),
+                 ),
+             ],
+          },
+      ),
 }
 
 
@@ -147,7 +181,11 @@ class TuyaBLEButton(TuyaBLEEntity, ButtonEntity):
             False,
         )
         if datapoint:
-            self._hass.create_task(datapoint.set_value(not bool(datapoint.value)))
+            if self._product.lock:
+                #Lock needs true to activate lock/unlock commands
+                self._hass.create_task(datapoint.set_value(True))
+            else:
+                self._hass.create_task(datapoint.set_value(not bool(datapoint.value)))
 
     @property
     def available(self) -> bool:

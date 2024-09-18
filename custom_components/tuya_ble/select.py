@@ -51,7 +51,7 @@ class TuyaBLEFingerbotModeMapping(TuyaBLESelectMapping):
             entity_category=EntityCategory.CONFIG,
             options=
                 [
-                    FINGERBOT_MODE_PUSH, 
+                    FINGERBOT_MODE_PUSH,
                     FINGERBOT_MODE_SWITCH,
                     FINGERBOT_MODE_PROGRAM,
                 ],
@@ -66,6 +66,26 @@ class TuyaBLECategorySelectMapping:
 
 
 mapping: dict[str, TuyaBLECategorySelectMapping] = {
+    "sfkzq": TuyaBLECategorySelectMapping(
+        products={
+            "nxquc5lb":  # Smart Water Valve
+            [
+                TuyaBLESelectMapping(
+                    dp_id=10,
+                    description=SelectEntityDescription(
+                        key="weather_delay",
+                        options=[
+                            "cancel",
+                            "24h",
+                            "48h",
+                            "72h",
+                        ],
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                ),
+            ]
+        }
+    ),
     "co2bj": TuyaBLECategorySelectMapping(
         products={
             "59s19z5m":  # CO2 Detector
@@ -85,7 +105,7 @@ mapping: dict[str, TuyaBLECategorySelectMapping] = {
     "ms": TuyaBLECategorySelectMapping(
         products={
             **dict.fromkeys(
-                ["ludzroix", "isk2p555"], # Smart Lock
+                ["ludzroix", "isk2p555", "okkyfgfs", "gumrixyt", "uamrw6h3"], # Smart Lock
                 [
                     TuyaBLESelectMapping(
                         dp_id=31,
@@ -116,7 +136,7 @@ mapping: dict[str, TuyaBLECategorySelectMapping] = {
                 [
                     "blliqpsj",
                     "ndvkgsrm",
-                    "yiihr7zh", 
+                    "yiihr7zh",
                     "neq16kgd"
                 ],  # Fingerbot Plus
                 [
@@ -129,6 +149,19 @@ mapping: dict[str, TuyaBLECategorySelectMapping] = {
                     "5xhbk964"],  # Fingerbot
                 [
                     TuyaBLEFingerbotModeMapping(dp_id=8),
+                ],
+            ),
+        },
+    ),
+    "kg": TuyaBLECategorySelectMapping(
+        products={
+            **dict.fromkeys(
+                [
+                    "mknd4lci",
+                    "riecov42"
+                ],  # Fingerbot Plus
+                [
+                    TuyaBLEFingerbotModeMapping(dp_id=101),
                 ],
             ),
         },

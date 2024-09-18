@@ -6,24 +6,29 @@ This integration supports Tuya devices connected via BLE.
 
 _Inspired by code of [@redphx](https://github.com/redphx/poc-tuya-ble-fingerbot)_
 
+_Original HASS component forked from https://github.com/PlusPlus-ua/ha_tuya_ble_
+
+_This forks base is from https://github.com/markusg1234/ha_tuya_ble_
+
+
 ## Installation
 
 Place the `custom_components` folder in your configuration directory (or add its contents to an existing `custom_components` folder). Alternatively install via [HACS](https://hacs.xyz/).
 
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=markusg1234&repository=ha_tuya_ble&category=integration)
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=patriot1889&repository=ha_tuya_ble&category=integration)
 
 ## Usage
 
 After adding to Home Assistant integration should discover all supported Bluetooth devices, or you can add discoverable devices manually.
 
-The integration works locally, but connection to Tuya BLE device requires device ID and encryption key from Tuya IOT cloud. It could be obtained using the same credentials as in the previous official Tuya integration. To obtain the credentials, please refer to official Tuya integration [documentation](https://web.archive.org/web/20231228044831/https://www.home-assistant.io/integrations/tuya/) [[1]](https://github.com/home-assistant/home-assistant.io/blob/a4e6d4819f1db584cc66ba2082508d3978f83f7e/source/_integrations/tuya.markdown)
+The integration works locally, but connection to Tuya BLE device requires device ID and encryption key from Tuya IOT cloud. It could be obtained using the same credentials as in official Tuya integration. To obtain the credentials, please refer to *old* official Tuya integration [documentation](https://web.archive.org/web/20240204064157/https://www.home-assistant.io/integrations/tuya/)
 
-## Supported devices list
+## Supported devices list (not up to date)
 
 * Fingerbots (category_id 'szjqr')
   + Fingerbot (product_ids 'ltak7e1p', 'y6kttvd6', 'yrnk7mnn', 'nvr2rocq', 'bnt7wajf', 'rvdceqjh', '5xhbk964'), original device, first in category, powered by CR2 battery.
   + Adaprox Fingerbot (product_id 'y6kttvd6'), built-in battery with USB type C charging.
-  + Fingerbot Plus (product_ids 'blliqpsj', 'ndvkgsrm', 'yiihr7zh', 'neq16kgd'), almost same as original, has sensor button for manual control.
+  + Fingerbot Plus (product_ids 'blliqpsj', 'ndvkgsrm', 'yiihr7zh', 'neq16kgd', 'mknd4lci', 'riecov42'), almost same as original, has sensor button for manual control.
   + CubeTouch 1s (product_id '3yqdo5yt'), built-in battery with USB type C charging.
   + CubeTouch II (product_id 'xhf790if'), built-in battery with USB type C charging.
 
@@ -40,7 +45,7 @@ The integration works locally, but connection to Tuya BLE device requires device
   + CO2 Detector (product_id '59s19z5m').
 
 * Smart Locks (category_id 'ms')
-  + Smart Lock (product_id 'ludzroix', 'isk2p555').
+  + Smart Lock (product_id 'ludzroix', 'isk2p555', 'gumrixyt').
 
 * Climate (category_id 'wk')
   + Thermostatic Radiator Valve (product_ids 'drlajpqc', 'nhj2j7su').
@@ -52,11 +57,14 @@ The integration works locally, but connection to Tuya BLE device requires device
   + Irrigation computer (product_id '6pahkcau')
   + 2-outlet irrigation computer SGW02 (product_id 'hfgdqhho'), also known as MOES BWV-YC02-EU-GY
 
+
+
 ## Support project
+_The following is a comment from the original developer which deserves to stay_
+
 
 I am working on this integration in Ukraine. Our country was subjected to brutal aggression by Russia. The war still continues. The capital of Ukraine - Kyiv, where I live, and many other cities and villages are constantly under threat of rocket attacks. Our air defense forces are doing wonders, but they also need support. So if you want to help the development of this integration, donate some money and I will spend it to support our air defense.
 <br><br>
 <p align="center">
   <a href="https://www.buymeacoffee.com/3PaK6lXr4l"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy me an air defense"></a>
 </p>
-

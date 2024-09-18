@@ -14,10 +14,9 @@ from homeassistant.const import (
     CONCENTRATION_PARTS_PER_MILLION,
     PERCENTAGE,
     SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
-    TEMP_CELSIUS,
-    VOLUME_MILLILITERS,
     UnitOfTemperature,
-    UnitOfTime
+    UnitOfTime,
+    UnitOfVolume,
 )
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity import EntityCategory
@@ -85,6 +84,23 @@ class TuyaBLECategorySensorMapping:
     products: dict[str, list[TuyaBLESensorMapping]] | None = None
     mapping: list[TuyaBLESensorMapping] | None = None
 mapping: dict[str, TuyaBLECategorySensorMapping] = {
+    "sfkzq": TuyaBLECategorySensorMapping(
+        products={
+            "nxquc5lb":  # Smart Water Valve
+            [
+                TuyaBLESensorMapping(
+                    dp_id=7,
+                    description=SensorEntityDescription(
+                        key="battery_percentage",
+                        device_class=SensorDeviceClass.BATTERY,
+                        native_unit_of_measurement=PERCENTAGE,
+                        entity_category=EntityCategory.DIAGNOSTIC,
+                        state_class=SensorStateClass.MEASUREMENT,
+                    ),
+                ),   
+            ]
+        }
+    ),
     "co2bj": TuyaBLECategorySensorMapping(
         products={
             "59s19z5m": [  # CO2 Detector
@@ -127,7 +143,7 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
     "ms": TuyaBLECategorySensorMapping(
         products={
             **dict.fromkeys(
-                ["ludzroix", "isk2p555"], # Smart Lock
+                ["ludzroix", "isk2p555", "gumrixyt", "uamrw6h3"], # Smart Lock
                 [
                     TuyaBLESensorMapping(
                         dp_id=21,
@@ -137,7 +153,17 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
                             options=[
                                 "wrong_finger",
                                 "wrong_password",
+                                "wrong_card",
+                                "wrong_face",
+                                "tongue_bad",
+                                "too_hot",
+                                "unclosed_time",
+                                "tongue_not_out",
+                                "pry",
+                                "key_in",
                                 "low_battery",
+                                "power_off",
+                                "shock"                                
                             ],
                         ),
                     ),
@@ -149,7 +175,7 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
     "szjqr": TuyaBLECategorySensorMapping(
         products={
             **dict.fromkeys(
-                ["3yqdo5yt", "xhf790if"],  # CubeTouch 1s and II
+                ["3yqdo5yt", "xhf790if", "okkyfgfs"],  # CubeTouch 1s and II
                 [
                     TuyaBLESensorMapping(
                         dp_id=7,
@@ -176,7 +202,7 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
                 [
                     "blliqpsj",
                     "ndvkgsrm",
-                    "yiihr7zh", 
+                    "yiihr7zh",
                     "neq16kgd"
                 ],  # Fingerbot Plus
                 [
@@ -195,6 +221,19 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
                 ],  # Fingerbot
                 [
                     TuyaBLEBatteryMapping(dp_id=12),
+                ],
+            ),
+        },
+    ),
+    "kg": TuyaBLECategorySensorMapping(
+        products={
+            **dict.fromkeys(
+                [
+                    "mknd4lci",
+                    "riecov42"
+                ],  # Fingerbot Plus
+                [
+                    TuyaBLEBatteryMapping(dp_id=105),
                 ],
             ),
         },
@@ -235,6 +274,75 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
                     ],
                 ),
                 TuyaBLEBatteryMapping(dp_id=4),
+            ],
+            "tv6peegl": [  # Soil moisture sensor
+                TuyaBLETemperatureMapping(
+                    dp_id=101,
+                ),
+                TuyaBLESensorMapping(
+                    dp_id=102,
+                    description=SensorEntityDescription(
+                        key="moisture",
+                        device_class=SensorDeviceClass.MOISTURE,
+                        native_unit_of_measurement=PERCENTAGE,
+                        state_class=SensorStateClass.MEASUREMENT,
+                    ),
+                ),
+            ],
+        },
+    ),
+    "zwjcy": TuyaBLECategorySensorMapping(
+        products={
+            "gvygg3m8": [  # Smartlife Plant Sensor SGS01
+                TuyaBLETemperatureMapping(
+                    dp_id=5,
+                    coefficient=10.0,
+                    description=SensorEntityDescription(
+                        key="temp_current",
+                        device_class=SensorDeviceClass.TEMPERATURE,
+                        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+                        state_class=SensorStateClass.MEASUREMENT,
+                    ),
+                ),
+                TuyaBLESensorMapping(
+                    dp_id=3,
+                    description=SensorEntityDescription(
+                        key="humidity",
+                        device_class=SensorDeviceClass.HUMIDITY,
+                        native_unit_of_measurement=PERCENTAGE,
+                        state_class=SensorStateClass.MEASUREMENT,
+                    ),
+                ),
+                TuyaBLESensorMapping(
+                    dp_id=14,
+                    description=SensorEntityDescription(
+                        key="battery_state",
+                        icon="mdi:battery",
+                        device_class=SensorDeviceClass.ENUM,
+                        entity_category=EntityCategory.DIAGNOSTIC,
+                        options=[
+                            BATTERY_STATE_LOW,
+                            BATTERY_STATE_NORMAL,
+                            BATTERY_STATE_HIGH,
+                        ],
+                    ),
+                    icons=[
+                        "mdi:battery-alert",
+                        "mdi:battery-50",
+                        "mdi:battery-check",
+                    ],
+                ),
+                TuyaBLEBatteryMapping(
+                    dp_id=15,
+                    description=SensorEntityDescription(
+                        key="battery_percentage",
+                        device_class=SensorDeviceClass.BATTERY,
+                        native_unit_of_measurement=PERCENTAGE,
+                        entity_category=EntityCategory.DIAGNOSTIC,
+                        state_class=SensorStateClass.MEASUREMENT,
+                    ),
+
+                ),
             ],
         },
     ),
@@ -305,7 +413,7 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
                     description=SensorEntityDescription(
                         key="water_intake",
                         device_class=SensorDeviceClass.WATER,
-                        native_unit_of_measurement=VOLUME_MILLILITERS,
+                        native_unit_of_measurement=UnitOfVolume.MILLILITERS,
                         state_class=SensorStateClass.MEASUREMENT,
                     ),
                 ),
@@ -325,7 +433,7 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
     ),
     "ggq": TuyaBLECategorySensorMapping(
         products={
-            "6pahkcau": [  # Irrigation computer
+            "6pahkcau": [  # Irrigation computer PARKSIDE PPB A1
                 TuyaBLEBatteryMapping(dp_id=11),
                 TuyaBLESensorMapping(
                     dp_id=6,
@@ -337,26 +445,8 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
                     ),
                 ),
             ],
-            "hfgdqhho": [  # Irrigation computer - SGW02
+            "hfgdqhho": [  # Irrigation computer SGW08
                 TuyaBLEBatteryMapping(dp_id=11),
-                TuyaBLESensorMapping(
-                    dp_id=111,
-                    description=SensorEntityDescription(
-                        key="use_time_z1",
-                        device_class=SensorDeviceClass.DURATION,
-                        native_unit_of_measurement=UnitOfTime.SECONDS,
-                        state_class=SensorStateClass.MEASUREMENT,
-                    ),
-                ),
-                TuyaBLESensorMapping(
-                    dp_id=110,
-                    description=SensorEntityDescription(
-                        key="use_time_z2",
-                        device_class=SensorDeviceClass.DURATION,
-                        native_unit_of_measurement=UnitOfTime.SECONDS,
-                        state_class=SensorStateClass.MEASUREMENT,
-                    ),
-                ),
             ],
         },
     ),

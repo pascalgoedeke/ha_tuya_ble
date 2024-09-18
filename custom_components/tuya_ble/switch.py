@@ -91,7 +91,7 @@ def set_fingerbot_program_repeat_forever(
         datapoint = self._device.datapoints[product.fingerbot.program]
         if datapoint and type(datapoint.value) is bytes:
             new_value = (
-                int.to_bytes(0xFFFF if value else 1, 2, "big") + 
+                int.to_bytes(0xFFFF if value else 1, 2, "big") +
                 datapoint.value[2:]
             )
             self._hass.create_task(datapoint.set_value(new_value))
@@ -126,6 +126,19 @@ class TuyaBLECategorySwitchMapping:
 
 
 mapping: dict[str, TuyaBLECategorySwitchMapping] = {
+    "sfkzq": TuyaBLECategorySwitchMapping(
+        products={
+            "nxquc5lb":  # Smart Water Valve
+            [
+                TuyaBLESwitchMapping(
+                    dp_id=1,
+                    description=SwitchEntityDescription(
+                        key="water_valve",
+                    ),
+                ),
+            ]
+        }
+    ),
     "co2bj": TuyaBLECategorySwitchMapping(
         products={
             "59s19z5m": [  # CO2 Detector
@@ -163,12 +176,29 @@ mapping: dict[str, TuyaBLECategorySwitchMapping] = {
     "ms": TuyaBLECategorySwitchMapping(
         products={
             **dict.fromkeys(
-                ["ludzroix", "isk2p555"], # Smart Lock
+                ["ludzroix", "isk2p555", "gumrixyt"], # Smart Lock
                 [
                     TuyaBLESwitchMapping(
                         dp_id=47,
                         description=SwitchEntityDescription(
                             key="lock_motor_state",
+                        ),
+                    ),
+                ]
+            ),
+            **dict.fromkeys(
+                ["uamrw6h3"], #Smart Fechadura Positivo
+                [
+                    TuyaBLESwitchMapping(
+                        dp_id=47,
+                        description=SwitchEntityDescription(
+                            key="lock_motor_state",
+                        ),
+                    ),
+                    TuyaBLESwitchMapping(
+                        dp_id=46,
+                        description=SwitchEntityDescription(
+                            key="manual_lock",
                         ),
                     ),
                 ]
@@ -240,12 +270,54 @@ mapping: dict[str, TuyaBLECategorySwitchMapping] = {
             ),
         },
     ),
+    "kg": TuyaBLECategorySwitchMapping(
+        products={
+            **dict.fromkeys(
+                [
+                    "mknd4lci",
+                    "riecov42"
+                ],  # Fingerbot Plus
+                [
+                    TuyaBLEFingerbotSwitchMapping(dp_id=1),
+                    TuyaBLEReversePositionsMapping(dp_id=104),
+                    TuyaBLESwitchMapping(
+                        dp_id=107,
+                        description=SwitchEntityDescription(
+                            key="manual_control",
+                            icon="mdi:gesture-tap-box",
+                            entity_category=EntityCategory.CONFIG,
+                        ),
+                    ),
+                    TuyaBLESwitchMapping(
+                        dp_id=1,
+                        description=SwitchEntityDescription(
+                            key="program",
+                            icon="mdi:repeat",
+                        ),
+                        is_available=is_fingerbot_in_program_mode,
+                    ),
+                    TuyaBLESwitchMapping(
+                        dp_id=109,
+                        description=SwitchEntityDescription(
+                            key="program_repeat_forever",
+                            icon="mdi:repeat",
+                            entity_category=EntityCategory.CONFIG,
+                        ),
+                        getter=get_fingerbot_program_repeat_forever,
+                        is_available=is_fingerbot_in_program_mode,
+                        setter=set_fingerbot_program_repeat_forever,
+                    ),
+                ],
+            ),
+        },
+    ),
     "wk": TuyaBLECategorySwitchMapping(
         products={
             **dict.fromkeys(
                 [
                     "drlajpqc",
                     "nhj2j7su",
+                    "zmachryv",
                 ],  # Thermostatic Radiator Valve
                 [
                     TuyaBLESwitchMapping(
@@ -317,7 +389,7 @@ mapping: dict[str, TuyaBLECategorySwitchMapping] = {
     ),
     "ggq": TuyaBLECategorySwitchMapping(
         products={
-            "6pahkcau": [  # Irrigation computer
+            "6pahkcau": [  # Irrigation computer PARKSIDE PPB A1
                 TuyaBLESwitchMapping(
                     dp_id=1,
                     description=SwitchEntityDescription(
@@ -326,18 +398,20 @@ mapping: dict[str, TuyaBLECategorySwitchMapping] = {
                     ),
                 ),
             ],
-            "hfgdqhho": [  # Irrigation computer
+            "hfgdqhho": [  # Irrigation computer SGW08
                 TuyaBLESwitchMapping(
                     dp_id=105,
                     description=SwitchEntityDescription(
-                        key="water_valve_z1",
+                        key="water_valve_1",
+                        name="CH1 Valve",
                         entity_registry_enabled_default=True,
                     ),
                 ),
                 TuyaBLESwitchMapping(
                     dp_id=104,
                     description=SwitchEntityDescription(
-                        key="water_valve_z2",
+                        key="water_valve_2",
+                        name="CH2 Valve",
                         entity_registry_enabled_default=True,
                     ),
                 ),
