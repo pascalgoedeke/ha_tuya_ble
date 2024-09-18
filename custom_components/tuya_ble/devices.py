@@ -1,4 +1,5 @@
 """The Tuya BLE integration."""
+
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
@@ -64,6 +65,7 @@ class TuyaBLEProductInfo:
     manufacturer: str = DEVICE_DEF_MANUFACTURER
     fingerbot: TuyaBLEFingerbotInfo | None = None
 
+
 class TuyaBLEEntity(CoordinatorEntity):
     """Tuya BLE base entity."""
 
@@ -105,22 +107,23 @@ class TuyaBLEEntity(CoordinatorEntity):
         """Handle updated data from the coordinator."""
         self.async_write_ha_state()
 
-    def send_dp_value(self,
+    def send_dp_value(
+        self,
         key: DPCode | None,
         type: TuyaBLEDataPointType,
-        value: bytes | bool | int | str | None = None) -> None:
+        value: bytes | bool | int | str | None = None,
+    ) -> None:
 
         dpid = self.find_dpid(key)
         if dpid is not None:
             datapoint = self._device.datapoints.get_or_create(
-                    dpid,
-                    type,
-                    value,
-                )
+                dpid,
+                type,
+                value,
+            )
             self._hass.create_task(datapoint.set_value(value))
 
-    
-    def _send_command(self, commands : list[dict[str, Any]]) -> None:
+    def _send_command(self, commands: list[dict[str, Any]]) -> None:
         """Send the commands to the device"""
         for command in commands:
             code = command.get("code")
@@ -138,14 +141,17 @@ class TuyaBLEEntity(CoordinatorEntity):
                         if isinstance(self.device.function[code].values, dict):
                             range = self.device.function[code].values.get("range")
                             if isinstance(range, list):
-                                int_value = range.index(value) if value in range else None
-                        self.send_dp_value(code, TuyaBLEDataPointType.DT_ENUM, int_value)
+                                int_value = (
+                                    range.index(value) if value in range else None
+                                )
+                        self.send_dp_value(
+                            code, TuyaBLEDataPointType.DT_ENUM, int_value
+                        )
 
                 elif isinstance(value, bool):
                     self.send_dp_value(code, TuyaBLEDataPointType.DT_BOOL, value)
                 else:
                     self.send_dp_value(code, TuyaBLEDataPointType.DT_VALUE, value)
-
 
     def find_dpid(
         self, dpcode: DPCode | None, prefer_function: bool = False
@@ -221,7 +227,6 @@ class TuyaBLEEntity(CoordinatorEntity):
 
         return None
 
-
     def get_dptype(
         self, dpcode: DPCode | None, prefer_function: bool = False
     ) -> DPType | None:
@@ -237,8 +242,6 @@ class TuyaBLEEntity(CoordinatorEntity):
                 return DPType(getattr(self.device, key)[dpcode].type)
 
         return None
-
-
 
 
 class TuyaBLECoordinator(DataUpdateCoordinator[None]):
@@ -324,8 +327,7 @@ class TuyaBLECategoryInfo:
 devices_database: dict[str, TuyaBLECategoryInfo] = {
     "sfkzq": TuyaBLECategoryInfo(
         products={
-            "nxquc5lb":  # device product_id
-            TuyaBLEProductInfo(
+            "nxquc5lb": TuyaBLEProductInfo(  # device product_id
                 name="Smart Water Valve",
             ),
         },
@@ -340,18 +342,12 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
     "ms": TuyaBLECategoryInfo(
         products={
             **dict.fromkeys(
-                [
-                    "ludzroix",
-                    "isk2p555",
-                    "gumrixyt",
-                    "uamrw6h3"
-                 ],
-                     TuyaBLEProductInfo(  # device product_id
-                     name="Smart Lock",
-                 ),
+                ["ludzroix", "isk2p555", "gumrixyt", "uamrw6h3"],
+                TuyaBLEProductInfo(  # device product_id
+                    name="Smart Lock",
+                ),
             ),
-            "okkyfgfs":
-            TuyaBLEProductInfo(
+            "okkyfgfs": TuyaBLEProductInfo(
                 name="TEKXDD Fingerprint Smart Lock",
                 lock=1,
             ),
@@ -382,12 +378,7 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
                 ),
             ),
             **dict.fromkeys(
-                [
-                    "blliqpsj",
-                    "ndvkgsrm",
-                    "yiihr7zh",
-                    "neq16kgd"
-                ],  # device product_ids
+                ["blliqpsj", "ndvkgsrm", "yiihr7zh", "neq16kgd"],  # device product_ids
                 TuyaBLEProductInfo(
                     name="Fingerbot Plus",
                     fingerbot=TuyaBLEFingerbotInfo(
@@ -430,10 +421,7 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
     "kg": TuyaBLECategoryInfo(
         products={
             **dict.fromkeys(
-                [
-                    "mknd4lci",
-                    "riecov42"
-                ],  # device product_ids
+                ["mknd4lci", "riecov42"],  # device product_ids
                 TuyaBLEProductInfo(
                     name="Fingerbot Plus",
                     fingerbot=TuyaBLEFingerbotInfo(
@@ -453,13 +441,13 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
     "wk": TuyaBLECategoryInfo(
         products={
             **dict.fromkeys(
-            [
-            "drlajpqc",
-            "nhj2j7su",
-            "zmachryv",
-            ],  # device product_id
-            TuyaBLEProductInfo(
-                name="Thermostatic Radiator Valve",
+                [
+                    "drlajpqc",
+                    "nhj2j7su",
+                    "zmachryv",
+                ],  # device product_id
+                TuyaBLEProductInfo(
+                    name="Thermostatic Radiator Valve",
                 ),
             ),
         },
@@ -476,8 +464,7 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
     ),
     "znhsb": TuyaBLECategoryInfo(
         products={
-            "cdlandip":  # device product_id
-            TuyaBLEProductInfo(
+            "cdlandip": TuyaBLEProductInfo(  # device product_id
                 name="Smart water bottle",
             ),
         },
@@ -485,34 +472,42 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
     "ggq": TuyaBLECategoryInfo(
         products={
             **dict.fromkeys(
-                [
-                    "6pahkcau",  # PPB A1
-                    "hfgdqhho"   # SGW08
-                ],
+                ["6pahkcau", "hfgdqhho"],  # PPB A1  # SGW08
                 TuyaBLEProductInfo(
                     name="Irrigation computer",
-                )
+                ),
             )
         },
     ),
     "dd": TuyaBLECategoryInfo(
         products={
             **dict.fromkeys(
-            [
-              "nvfrtxlq",
-            ],  # device product_id
-            TuyaBLEProductInfo(
-                name="LGB102 Magic Strip Lights",
-                manufacturer="Magiacous",
-		),
+                [
+                    "nvfrtxlq",
+                ],  # device product_id
+                TuyaBLEProductInfo(
+                    name="LGB102 Magic Strip Lights",
+                    manufacturer="Magiacous",
+                ),
             ),
         },
-        info = TuyaBLEProductInfo(
-                name="Strip Lights",
-		),
-
+        info=TuyaBLEProductInfo(
+            name="Strip Lights",
+        ),
+    ),
+    "dj": TuyaBLECategoryInfo(
+        products={
+            "u4h3jtqr": TuyaBLEProductInfo(
+                name="SSG Smart 9W",
+                manufacturer="Super Star Group",
+            )
+        },
+        info=TuyaBLEProductInfo(
+            name="Smart Bulb",
+        ),
     ),
 }
+
 
 def get_product_info_by_ids(
     category: str, product_id: str
@@ -590,4 +585,3 @@ def get_device_info(device: TuyaBLEDevice) -> DeviceInfo | None:
         ),
     )
     return result
-

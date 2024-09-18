@@ -27,16 +27,17 @@ from homeassistant.components.light import (
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers.entity import EntityCategory
+# from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+from homeassistant.const import EntityCategory
 
 from .const import DOMAIN
 from .base import IntegerTypeData
 from .util import remap_value
 from .devices import TuyaBLEData, TuyaBLEEntity, TuyaBLEProductInfo
 from .tuya_ble import (
-    TuyaBLEDevice, 
+    TuyaBLEDevice,
     TuyaBLEEntityDescription,
 )
 
@@ -89,7 +90,7 @@ class ColorData:
 
 @dataclass
 class TuyaLightEntityDescription(
-            TuyaBLEEntityDescription, 
+            TuyaBLEEntityDescription,
             LightEntityDescription
             ):
     """Describe an Tuya light entity."""
@@ -102,7 +103,7 @@ class TuyaLightEntityDescription(
     color_temp: DPCode | tuple[DPCode, ...] | None = None
     default_color_type: ColorTypeData = field(
         default_factory=lambda: DEFAULT_COLOR_TYPE_DATA
-    ) 
+    )
 
 
 # You can add here description for device for which automatic capabilities setting
@@ -112,12 +113,12 @@ class TuyaLightEntityDescription(
 #
 # function/status range are array of dicts descriptions the DPs
 # Values are added (replace for same DP) to what we get from the cloud
-# ex: 
+# ex:
 # key = ""
 # functions = [
 #   {"code": "switch_led", "dp_id": 1, "type": "Boolean", "values": {}},
-#   {"code": "bright_value", "dp_id": 3, "type": "Integer", "values": {"min":10,"max":1000,"scale":0,"step":1}}, 
-#   {"code": "colour_data", "dp_id": 5, "type": "Json", "values": {"h":{"min":0,"scale":0,"unit":"","max":360,"step":1},"s":{"min":0,"scale":0,"unit":"","max":1000,"step":1},"v":{"min":0,"scale":0,"unit":"","max":1000,"step":1}}}, 
+#   {"code": "bright_value", "dp_id": 3, "type": "Integer", "values": {"min":10,"max":1000,"scale":0,"step":1}},
+#   {"code": "colour_data", "dp_id": 5, "type": "Json", "values": {"h":{"min":0,"scale":0,"unit":"","max":360,"step":1},"s":{"min":0,"scale":0,"unit":"","max":1000,"step":1},"v":{"min":0,"scale":0,"unit":"","max":1000,"step":1}}},
 # ]
 # ex:
 # <category> : { <productid> : [ TuyaLightEntityDescription(); ... ] },
@@ -126,7 +127,7 @@ ProductsMapping: dict[str, dict[str, tuple[TuyaLightEntityDescription, ...]]] = 
     "dd": {
         "nvfrtxlq" : (
             TuyaLightEntityDescription(
-                key= "", # just override the category description from these set keys 
+                key= "", # just override the category description from these set keys
                 values_overrides={
                     # So we still get the right enum values if the product isn't set to DP mode in the cloud settings
                     DPCode.WORK_MODE : {
@@ -455,20 +456,20 @@ def update_mapping(category_description: tuple[TuyaLightEntityDescription], mapp
         cat_desc = l.pop(0)
         if desc.key == "":
             cat_desc = copy.deepcopy(cat_desc)
-            
+
             for key in [
-                        "brightness_max", 
-                        "brightness_min", 
-                        "color_data", 
-                        "color_mode", 
-                        "color_temp", 
+                        "brightness_max",
+                        "brightness_min",
+                        "color_data",
+                        "color_mode",
+                        "color_temp",
                     ]:
                 if v := getattr(desc, key):
                     setattr(cat_desc, key, v)
 
             for key in [
-                        "function", 
-                        "status_range", 
+                        "function",
+                        "status_range",
                     ]:
                 if v := getattr(desc, key):
                     l = getattr(desc, key)
@@ -479,8 +480,8 @@ def update_mapping(category_description: tuple[TuyaLightEntityDescription], mapp
                     setattr(cat_desc, key, l)
 
             for key in [
-                        "values_overrides", 
-                        "values_defaults", 
+                        "values_overrides",
+                        "values_defaults",
                     ]:
                 if v := getattr(desc, key):
                     l = getattr(desc, key)
@@ -504,7 +505,7 @@ def get_mapping_by_device(device: TuyaBLEDevice) -> tuple[TuyaLightEntityDescrip
         product_mapping_overrides = category.get(device.product_id)
         if product_mapping_overrides is not None:
              return update_mapping(category_mapping, product_mapping_overrides)
-             
+
     return category_mapping
 
 
@@ -537,12 +538,12 @@ class TuyaBLELight(TuyaBLEEntity, LightEntity):
 
         self._attr_unique_id = f"{super().unique_id}{description.key}"
         self._attr_supported_color_modes: set[ColorMode] = set()
-        
+
         # Update/override the device info from our description
         device.update_description(description)
 
         _LOGGER.debug("%s : sunctions: %s", device.name, device.function)
-        
+
         # Determine DPCodes
         self._color_mode_dpcode = self.find_dpcode(
             description.color_mode, prefer_function=True
@@ -847,7 +848,7 @@ class TuyaBLELight(TuyaBLEEntity, LightEntity):
                     h_value=h,
                     s_value=s,
                     v_value=v,
-                )   
+                )
         elif len(status_data) > 12:
             # Encoding for RGB devices from localtuya light component
             h = int(status_data[6:10], 16)

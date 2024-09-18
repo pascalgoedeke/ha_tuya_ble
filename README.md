@@ -8,7 +8,7 @@ _Inspired by code of [@redphx](https://github.com/redphx/poc-tuya-ble-fingerbot)
 
 _Original HASS component forked from https://github.com/PlusPlus-ua/ha_tuya_ble_
 
-_This forks base is from https://github.com/markusg1234/ha_tuya_ble_
+_Merged several changes by @airy10 and @patriot1889, including light support_
 
 
 ## Installation
@@ -56,8 +56,6 @@ The integration works locally, but connection to Tuya BLE device requires device
 * Irrigation computer (category_id 'ggq')
   + Irrigation computer (product_id '6pahkcau')
   + 2-outlet irrigation computer SGW02 (product_id 'hfgdqhho'), also known as MOES BWV-YC02-EU-GY
-
-
 
 * Lights
   + Most light products should be supported as the Light class tries to get device description from the cloud when there are added but only Strip Lights (category_id 'dd') Magiacous RGB light bar (product_id 'nvfrtxlq') has has been tested
