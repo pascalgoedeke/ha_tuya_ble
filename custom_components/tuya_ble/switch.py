@@ -102,6 +102,7 @@ class TuyaBLEFingerbotSwitchMapping(TuyaBLESwitchMapping):
     description: SwitchEntityDescription = field(
         default_factory=lambda: SwitchEntityDescription(
             key="switch",
+            name="Switch",
         )
     )
     is_available: TuyaBLESwitchIsAvailable = is_fingerbot_in_switch_mode

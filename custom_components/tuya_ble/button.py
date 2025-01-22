@@ -181,7 +181,7 @@ class TuyaBLEButton(TuyaBLEEntity, ButtonEntity):
             False,
         )
         if datapoint:
-            if self._product.lock:
+            if getattr(self._product, "lock", False):  # Safely check if 'lock' exists and is True
                 #Lock needs true to activate lock/unlock commands
                 self._hass.create_task(datapoint.set_value(True))
             else:

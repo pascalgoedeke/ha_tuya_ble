@@ -56,6 +56,7 @@ BLEAK_EXCEPTIONS = (*BLEAK_RETRY_EXCEPTIONS, OSError)
 
 @dataclass
 class TuyaBLEEntityDescription:
+    key: str
     # Added to info that we get from the cloud
     function: list[dict[str, dict]]  | None = None
     status_range: list[dict[str, dict]]  | None = None

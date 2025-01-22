@@ -90,21 +90,21 @@ class ColorData:
 
 @dataclass
 class TuyaLightEntityDescription(
-            TuyaBLEEntityDescription,
-            LightEntityDescription
-            ):
-    """Describe an Tuya light entity."""
+        TuyaBLEEntityDescription,
+        LightEntityDescription
+    ):
+    """Describe a Tuya light entity."""
 
+    key: str  # Non-default argument
     brightness_max: DPCode | None = None
     brightness_min: DPCode | None = None
     brightness: DPCode | tuple[DPCode, ...] | None = None
     color_data: DPCode | tuple[DPCode, ...] | None = None
     color_mode: DPCode | None = None
     color_temp: DPCode | tuple[DPCode, ...] | None = None
-    default_color_type: ColorTypeData = field(
-        default_factory=lambda: DEFAULT_COLOR_TYPE_DATA
-    )
-
+    values_overrides: dict = field(default_factory=dict)  # Ensure this is always defined
+    values_defaults: dict = field(default_factory=dict)  # Default argument
+    default_color_type: ColorTypeData = field(default_factory=lambda: DEFAULT_COLOR_TYPE_DATA)  # Default argument
 
 # You can add here description for device for which automatic capabilities setting
 # from the cloud data doesn't work - if "key" is "", then products descriptions
@@ -127,7 +127,14 @@ ProductsMapping: dict[str, dict[str, tuple[TuyaLightEntityDescription, ...]]] = 
     "dd": {
         "nvfrtxlq" : (
             TuyaLightEntityDescription(
-                key= "", # just override the category description from these set keys
+                key="",
+                brightness_max=None,
+                brightness_min=None,
+                brightness=None,
+                color_data=None,
+                color_mode=None,
+                color_temp=None,
+                values_defaults={},
                 values_overrides={
                     # So we still get the right enum values if the product isn't set to DP mode in the cloud settings
                     DPCode.WORK_MODE : {
@@ -153,6 +160,11 @@ LIGHTS: dict[str, tuple[TuyaLightEntityDescription, ...]] = {
             key=DPCode.SWITCH_BACKLIGHT,
             translation_key="backlight",
             entity_category=EntityCategory.CONFIG,
+            brightness=None,
+            color_data=None,
+            color_mode=None,
+            color_temp=None,
+            values_defaults={},
         ),
     ),
     # String Lights
@@ -498,16 +510,14 @@ def update_mapping(category_description: tuple[TuyaLightEntityDescription], mapp
     return m
 
 def get_mapping_by_device(device: TuyaBLEDevice) -> tuple[TuyaLightEntityDescription]:
-    category_mapping = LIGHTS.get(device.category)
-
-    category = ProductsMapping.get(device.category)
-    if category is not None:
-        product_mapping_overrides = category.get(device.product_id)
-        if product_mapping_overrides is not None:
-             return update_mapping(category_mapping, product_mapping_overrides)
+    category_mapping = LIGHTS.get(device.category, ())
+    
+    category = ProductsMapping.get(device.category, {})
+    product_mapping_overrides = category.get(device.product_id)
+    if product_mapping_overrides:
+        return update_mapping(category_mapping, product_mapping_overrides)
 
     return category_mapping
-
 
 class TuyaBLELight(TuyaBLEEntity, LightEntity):
     """Representation of a Tuya BLE Light."""
@@ -880,6 +890,11 @@ async def async_setup_entry(
     """Set up the Tuya BLE sensors."""
     data: TuyaBLEData = hass.data[DOMAIN][entry.entry_id]
     descs = get_mapping_by_device(data.device)
+
+    if not descs:
+        _LOGGER.warning("No descriptions found for device: %s", data.device)
+        return
+
     entities: list[TuyaBLELight] = []
 
     for desc in descs:
