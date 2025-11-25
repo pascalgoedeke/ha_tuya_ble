@@ -319,12 +319,22 @@ mapping: dict[str, TuyaBLECategorySwitchMapping] = {
                         key="switch_1",
                         name="Switch 1",
                     ),
+                    # Only expose as a switch when channel 1 is in switch mode
+                    is_available=lambda self, product: (
+                        (dp := self._device.datapoints[101]) is not None
+                        and (dp.value if not isinstance(dp.value, bytes) else int.from_bytes(dp.value[:1], "big")) == 1
+                    ),
                 ),
                 TuyaBLESwitchMapping(
                     dp_id=2,
                     description=SwitchEntityDescription(
                         key="switch_2",
                         name="Switch 2",
+                    ),
+                    # Only expose as a switch when channel 2 is in switch mode
+                    is_available=lambda self, product: (
+                        (dp := self._device.datapoints[102]) is not None
+                        and (dp.value if not isinstance(dp.value, bytes) else int.from_bytes(dp.value[:1], "big")) == 1
                     ),
                 ),
                 # Touch enable switches per channel
