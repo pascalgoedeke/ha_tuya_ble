@@ -21,7 +21,7 @@
           "access_id": "Tuya IoT Access ID",
           "access_secret": "Tuya IoT Access Secret",
           "country_code": "Country",
-          "password": "[%key:common::config_flow::data::password%]",
+          "password": "Password",
           "username": "Account"
         },
         "description": "Tuya BLE requires obtaining encryption key from Tuya cloud. Almost all devices only need to access the cloud once during setup.\n\nRefer to documentation of Tuya integration to retrive the cloud credentials https://www.home-assistant.io/integrations/tuya/\n\nEnter your Tuya credentials."
@@ -105,7 +105,7 @@
         "state": {
           "program": "Program",
           "push": "Push",
-          "switch": "[%key:component::switch::entity_component::_::name%]"
+          "switch": "Switch"
         }
       },
       "fingerbot_mode_1": {
@@ -113,7 +113,7 @@
         "state": {
           "program": "Program",
           "push": "Push",
-          "switch": "[%key:component::switch::entity_component::_::name%]"
+          "switch": "Switch"
         }
       },
       "fingerbot_mode_2": {
@@ -121,7 +121,7 @@
         "state": {
           "program": "Program",
           "push": "Push",
-          "switch": "[%key:component::switch::entity_component::_::name%]"
+          "switch": "Switch"
         }
       },
       "temperature_unit": {
@@ -296,7 +296,7 @@
           "access_id": "Tuya IoT Access ID",
           "access_secret": "Tuya IoT Access Secret",
           "country_code": "Country",
-          "password": "[%key:common::config_flow::data::password%]",
+          "password": "Password",
           "username": "Account"
         },
         "description": "Refer to documentation of Tuya integration to retrive the cloud credentials https://www.home-assistant.io/integrations/tuya/\n\nEnter your Tuya credentials."
