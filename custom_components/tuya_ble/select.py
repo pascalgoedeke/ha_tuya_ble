@@ -159,12 +159,38 @@ mapping: dict[str, TuyaBLECategorySelectMapping] = {
                 [
                     "mknd4lci",
                     "riecov42",
-                    "bs3ubslo"
                 ],  # Fingerbot Plus
                 [
                     TuyaBLEFingerbotModeMapping(dp_id=101),
                 ],
             ),
+            # Fingerbot Touch: per-channel mode selectors
+            "bs3ubslo": [
+                TuyaBLESelectMapping(
+                    dp_id=101,
+                    description=SelectEntityDescription(
+                        key="fingerbot_mode_1",
+                        entity_category=EntityCategory.CONFIG,
+                        options=[
+                            FINGERBOT_MODE_PUSH,
+                            FINGERBOT_MODE_SWITCH,
+                            FINGERBOT_MODE_PROGRAM,
+                        ],
+                    ),
+                ),
+                TuyaBLESelectMapping(
+                    dp_id=102,
+                    description=SelectEntityDescription(
+                        key="fingerbot_mode_2",
+                        entity_category=EntityCategory.CONFIG,
+                        options=[
+                            FINGERBOT_MODE_PUSH,
+                            FINGERBOT_MODE_SWITCH,
+                            FINGERBOT_MODE_PROGRAM,
+                        ],
+                    ),
+                ),
+            ],
         },
     ),
     "wsdcg": TuyaBLECategorySelectMapping(

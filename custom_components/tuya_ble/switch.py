@@ -277,7 +277,6 @@ mapping: dict[str, TuyaBLECategorySwitchMapping] = {
                 [
                     "mknd4lci",
                     "riecov42",
-                    "bs3ubslo"
                 ],  # Fingerbot Plus
                 [
                     TuyaBLEFingerbotSwitchMapping(dp_id=1),
@@ -311,6 +310,58 @@ mapping: dict[str, TuyaBLECategorySwitchMapping] = {
                     ),
                 ],
             ),
+            # Fingerbot Touch
+            "bs3ubslo": [
+                # Primary switches
+                TuyaBLESwitchMapping(
+                    dp_id=1,
+                    description=SwitchEntityDescription(
+                        key="switch_1",
+                        name="Switch 1",
+                    ),
+                ),
+                TuyaBLESwitchMapping(
+                    dp_id=2,
+                    description=SwitchEntityDescription(
+                        key="switch_2",
+                        name="Switch 2",
+                    ),
+                ),
+                # Touch enable switches per channel
+                TuyaBLESwitchMapping(
+                    dp_id=105,
+                    description=SwitchEntityDescription(
+                        key="touch_switch_1",
+                        icon="mdi:gesture-tap",
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                ),
+                TuyaBLESwitchMapping(
+                    dp_id=106,
+                    description=SwitchEntityDescription(
+                        key="touch_switch_2",
+                        icon="mdi:gesture-tap",
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                ),
+                # Invert switches per channel
+                TuyaBLESwitchMapping(
+                    dp_id=107,
+                    description=SwitchEntityDescription(
+                        key="switch_invert_1",
+                        icon="mdi:swap-horizontal",
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                ),
+                TuyaBLESwitchMapping(
+                    dp_id=108,
+                    description=SwitchEntityDescription(
+                        key="switch_invert_2",
+                        icon="mdi:swap-horizontal",
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                ),
+            ],
         },
     ),
     "wk": TuyaBLECategorySwitchMapping(

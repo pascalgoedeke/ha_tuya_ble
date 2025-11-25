@@ -422,7 +422,7 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
     "kg": TuyaBLECategoryInfo(
         products={
             **dict.fromkeys(
-                ["mknd4lci", "riecov42","bs3ubslo"],  # device product_ids
+                ["mknd4lci", "riecov42"],  # device product_ids
                 TuyaBLEProductInfo(
                     name="Fingerbot Plus",
                     fingerbot=TuyaBLEFingerbotInfo(
@@ -436,6 +436,10 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
                         program=109,
                     ),
                 ),
+            ),
+            # Fingerbot Touch (bs3ubslo) — separate device type
+            "bs3ubslo": TuyaBLEProductInfo(
+                name="Fingerbot Touch",
             ),
         },
     ),

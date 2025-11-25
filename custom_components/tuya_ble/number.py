@@ -356,7 +356,6 @@ mapping: dict[str, TuyaBLECategoryNumberMapping] = {
                 [
                     "mknd4lci",
                     "riecov42",
-                    "bs3ubslo"
                 ],  # Fingerbot Plus
                 [
                     TuyaBLENumberMapping(
@@ -401,6 +400,115 @@ mapping: dict[str, TuyaBLECategoryNumberMapping] = {
                     ),
                 ],
             ),
+            # Fingerbot Touch specific numbers
+            "bs3ubslo": [
+                # Touch duration per channel
+                TuyaBLENumberMapping(
+                    dp_id=103,
+                    description=NumberEntityDescription(
+                        key="touch_duration_1",
+                        icon="mdi:gesture-tap",
+                        native_max_value=10,
+                        native_min_value=0,
+                        native_unit_of_measurement=UnitOfTime.SECONDS,
+                        native_step=0.1,
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                    coefficient=10.0,
+                ),
+                TuyaBLENumberMapping(
+                    dp_id=104,
+                    description=NumberEntityDescription(
+                        key="touch_duration_2",
+                        icon="mdi:gesture-tap",
+                        native_max_value=10,
+                        native_min_value=0,
+                        native_unit_of_measurement=UnitOfTime.SECONDS,
+                        native_step=0.1,
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                    coefficient=10.0,
+                ),
+                # Touch off duration per channel
+                TuyaBLENumberMapping(
+                    dp_id=117,
+                    description=NumberEntityDescription(
+                        key="touch_off_duration_1",
+                        icon="mdi:timer-off",
+                        native_max_value=10,
+                        native_min_value=0,
+                        native_unit_of_measurement=UnitOfTime.SECONDS,
+                        native_step=0.1,
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                    coefficient=10.0,
+                ),
+                TuyaBLENumberMapping(
+                    dp_id=118,
+                    description=NumberEntityDescription(
+                        key="touch_off_duration_2",
+                        icon="mdi:timer-off",
+                        native_max_value=10,
+                        native_min_value=0,
+                        native_unit_of_measurement=UnitOfTime.SECONDS,
+                        native_step=0.1,
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                    coefficient=10.0,
+                ),
+                # Double-tap interval per channel
+                TuyaBLENumberMapping(
+                    dp_id=119,
+                    description=NumberEntityDescription(
+                        key="double_tap_interval_1",
+                        icon="mdi:gesture-double-tap",
+                        native_max_value=10,
+                        native_min_value=0,
+                        native_unit_of_measurement=UnitOfTime.SECONDS,
+                        native_step=0.1,
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                    coefficient=10.0,
+                ),
+                TuyaBLENumberMapping(
+                    dp_id=120,
+                    description=NumberEntityDescription(
+                        key="double_tap_interval_2",
+                        icon="mdi:gesture-double-tap",
+                        native_max_value=10,
+                        native_min_value=0,
+                        native_unit_of_measurement=UnitOfTime.SECONDS,
+                        native_step=0.1,
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                    coefficient=10.0,
+                ),
+                # Custom timers per channel
+                TuyaBLENumberMapping(
+                    dp_id=109,
+                    description=NumberEntityDescription(
+                        key="custom_timer_1",
+                        icon="mdi:timer-cog",
+                        native_max_value=86400,
+                        native_min_value=0,
+                        native_unit_of_measurement=UnitOfTime.SECONDS,
+                        native_step=1,
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                ),
+                TuyaBLENumberMapping(
+                    dp_id=110,
+                    description=NumberEntityDescription(
+                        key="custom_timer_2",
+                        icon="mdi:timer-cog",
+                        native_max_value=86400,
+                        native_min_value=0,
+                        native_unit_of_measurement=UnitOfTime.SECONDS,
+                        native_step=1,
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                ),
+            ],
         },
     ),
     "wk": TuyaBLECategoryNumberMapping(
