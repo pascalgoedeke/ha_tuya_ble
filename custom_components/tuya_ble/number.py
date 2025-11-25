@@ -680,7 +680,28 @@ class TuyaBLENumber(TuyaBLEEntity, NumberEntity):
 
         datapoint = self._device.datapoints[self._mapping.dp_id]
         if datapoint:
-            return datapoint.value / self._mapping.coefficient
+            value = datapoint.value
+            # Some devices report numeric values as raw bytes
+            if isinstance(value, bytes):
+                try:
+                    # Use big-endian integer from available bytes
+                    value = int.from_bytes(value, "big")
+                except Exception:  # pragma: no cover - safety fallback
+                    _LOGGER.debug(
+                        "Unable to parse bytes value for dp %s: %s",
+                        self._mapping.dp_id,
+                        value,
+                    )
+                    return None
+            try:
+                return float(value) / self._mapping.coefficient
+            except Exception:
+                _LOGGER.debug(
+                    "Unexpected value for dp %s: %s",
+                    self._mapping.dp_id,
+                    value,
+                )
+                return None
 
         return self._mapping.description.native_min_value
 
@@ -689,14 +710,22 @@ class TuyaBLENumber(TuyaBLEEntity, NumberEntity):
         if self._mapping.setter:
             self._mapping.setter(self, self._product, value)
             return
-        int_value = int(value * self._mapping.coefficient)
+        int_value = int(round(value * self._mapping.coefficient))
         datapoint = self._device.datapoints.get_or_create(
             self._mapping.dp_id,
             TuyaBLEDataPointType.DT_VALUE,
             int(int_value),
         )
         if datapoint:
-            self._hass.create_task(datapoint.set_value(int_value))
+            # If the device expects bytes for this datapoint, keep that format
+            if isinstance(datapoint.value, bytes):
+                # Preserve existing byte length when possible
+                length = len(datapoint.value) if datapoint.value else 2
+                length = max(1, min(length, 4))
+                new_value = int(int_value).to_bytes(length, "big")
+                self._hass.create_task(datapoint.set_value(new_value))
+            else:
+                self._hass.create_task(datapoint.set_value(int_value))
 
     @property
     def available(self) -> bool:

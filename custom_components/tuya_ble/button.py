@@ -114,6 +114,33 @@ mapping: dict[str, TuyaBLECategoryButtonMapping] = {
                     TuyaBLEFingerbotModeMapping(dp_id=108),
                 ],
             ),
+            # Fingerbot Touch (bs3ubslo): expose per-channel action buttons when in Push mode
+            "bs3ubslo": [
+                TuyaBLEButtonMapping(
+                    dp_id=1,
+                    description=ButtonEntityDescription(
+                        key="action_1",
+                        name="Action 1",
+                    ),
+                    # Available when channel 1 mode == push (0)
+                    is_available=lambda self, product: (
+                        (dp := self._device.datapoints[101]) is not None
+                        and (dp.value if not isinstance(dp.value, bytes) else int.from_bytes(dp.value[:1], "big")) == 0
+                    ),
+                ),
+                TuyaBLEButtonMapping(
+                    dp_id=2,
+                    description=ButtonEntityDescription(
+                        key="action_2",
+                        name="Action 2",
+                    ),
+                    # Available when channel 2 mode == push (0)
+                    is_available=lambda self, product: (
+                        (dp := self._device.datapoints[102]) is not None
+                        and (dp.value if not isinstance(dp.value, bytes) else int.from_bytes(dp.value[:1], "big")) == 0
+                    ),
+                ),
+            ],
         },
     ),
     "znhsb": TuyaBLECategoryButtonMapping(
