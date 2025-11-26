@@ -113,12 +113,13 @@ def _show_login_form(
                 user_input[CONF_COUNTRY_CODE] = country.name
                 break
 
-    def_country_name: str | None = None
-    try:
-        def_country = None 
-        ef_country_name = "Germany"
-    except:
-        pass
+    def_country_name = None
+    country_code = flow.hass.config.country
+    if country_code:
+        for country in TUYA_COUNTRIES:
+            if country.country_code == country_code:
+                def_country_name = country.name
+                break
 
     return flow.async_show_form(
         step_id="login",
