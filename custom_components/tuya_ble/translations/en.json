@@ -5,7 +5,7 @@
     },
     "error": {
       "device_not_registered": "Device is not registered in Tuya cloud",
-      "invalid_auth": "[%key:common::config_flow::error::invalid_auth%]",
+      "invalid_auth": "Invalid authentication",
       "login_error": "Login error ({code}): {msg}"
     },
     "flow_title": "{name}",
@@ -45,7 +45,7 @@
     },
     "number": {
       "brightness": {
-        "name": "[%key:component::light::entity_component::_::state_attributes::brightness::name%]"
+        "name": "Brightness"
       },
       "carbon_dioxide_alarm_level": {
         "name": "Alarm level"
@@ -140,7 +140,7 @@
     },
     "binary_sensor": {
       "low_battery": {
-        "name": "[%key:component::sensor::entity_component::battery::name%]"
+        "name": "Low battery"
       },
       "lock_motor_state": {
           "name": "Motor State"
@@ -148,26 +148,26 @@
     },
     "sensor": {
       "battery": {
-        "name": "[%key:component::sensor::entity_component::battery::name%]"
+        "name": "Battery percentage"
       },
       "battery_charging": {
         "name": "Battery charging",
         "state": {
           "charged": "Charged",
-          "charging": "[%key:component::binary_sensor::entity_component::battery_charging::state::on%]",
-          "not_charging": "[%key:component::binary_sensor::entity_component::battery_charging::state::off%]"
+          "charging": "Charging",
+          "not_charging": "Not charging"
         }
       },
       "battery_state": {
         "name": "Battery state",
         "state": {
           "high": "High",
-          "low": "[%key:component::binary_sensor::entity_component::battery::state::on%]",
-          "normal": "[%key:component::binary_sensor::entity_component::battery::state::off%]"
+          "low": "Low",
+          "normal": "Normal"
         }
       },
       "carbon_dioxide": {
-        "name": "[%key:component::sensor::entity_component::carbon_dioxide::name%]"
+        "name": "Carbon dioxide"
       },
       "carbon_dioxide_alarm": {
         "name": "Carbon dioxide level",
@@ -177,16 +177,16 @@
         }
       },
       "humidity": {
-        "name": "[%key:component::sensor::entity_component::humidity::name%]"
+        "name": "Humidity"
       },
       "moisture": {
-        "name": "[%key:component::sensor::entity_component::moisture::name%]"
+        "name": "Moisture"
       },
       "signal_strength": {
-        "name": "[%key:component::sensor::entity_component::signal_strength::name%]"
+        "name": "Signal strength"
       },
       "temperature": {
-        "name": "[%key:component::sensor::entity_component::temperature::name%]"
+        "name": "Temperature"
       },
       "water_intake": {
         "name": "Water intake"
@@ -251,7 +251,7 @@
         "name": "Reverse positions"
       },
       "switch": {
-        "name": "[%key:component::switch::entity_component::_::name%]"
+        "name": "Switch"
       },
       "lock_motor_state": {
           "name": "Motor State"
@@ -287,7 +287,7 @@
   "options": {
     "error": {
       "device_not_registered": "Device is not registered in Tuya cloud",
-      "invalid_auth": "[%key:common::config_flow::error::invalid_auth%]",
+      "invalid_auth": "Invalid authentication",
       "login_error": "Login error ({code}): {msg}"
     },
     "step": {
