@@ -10,23 +10,21 @@
     },
     "flow_title": "{name}",
     "step": {
-      "user": {
-        "data": {
-          "access_id": "Tuya IoT Access ID",
-          "access_secret": "Tuya IoT Access Secret",
-          "user_code": "User Code (from Tuya/Smart Life app)"
-        },
-        "description": "Authenticate with Tuya using a QR code. Enter your Access ID/Secret from Tuya IoT Platform and the User Code from the Tuya/Smart Life app (Profile -> Home Assistant). Next, scan the QR code with the app to link your account."
-      },
-      "scan": {
-        "description": "Open the Tuya/Smart Life app and scan this QR code to authorize. After scanning, click Submit to continue.",
-        "data": {}
-      },
       "device": {
         "data": {
           "address": "Tuya BLE device"
         },
         "description": "Select Tuya BLE device to setup. Device must be registered in the cloud using the mobile application. It's better to unbind the device from Tuya Bluetooth gateway, if any."
+      },
+      "login": {
+        "data": {
+          "access_id": "Tuya IoT Access ID",
+          "access_secret": "Tuya IoT Access Secret",
+          "country_code": "Country",
+          "password": "Password",
+          "username": "Account"
+        },
+        "description": "Tuya BLE requires obtaining encryption key from Tuya cloud. Almost all devices only need to access the cloud once during setup.\n\nRefer to documentation of Tuya integration to retrive the cloud credentials https://www.home-assistant.io/integrations/tuya/\n\nEnter your Tuya credentials."
       }
     }
   },

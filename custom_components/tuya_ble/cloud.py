@@ -6,10 +6,10 @@ import logging
 from dataclasses import dataclass
 import json
 from typing import Any, Iterable
-from types import SimpleNamespace
 
 from homeassistant.const import (
     CONF_ADDRESS,
+    CONF_COUNTRY_CODE,
     CONF_DEVICE_ID,
     CONF_PASSWORD,
     CONF_USERNAME,
@@ -62,7 +62,6 @@ from .const import (
     CONF_ACCESS_SECRET,
     CONF_AUTH_TYPE,
     SMARTLIFE_APP,
-    CONF_TOKEN_INFO,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -80,10 +79,9 @@ CONF_TUYA_LOGIN_KEYS = [
     CONF_ACCESS_ID,
     CONF_ACCESS_SECRET,
     CONF_AUTH_TYPE,
-    # Either token-based OR legacy username/password
-    CONF_TOKEN_INFO,
     CONF_USERNAME,
     CONF_PASSWORD,
+    CONF_COUNTRY_CODE,
     CONF_APP_TYPE,
 ]
 
@@ -120,19 +118,10 @@ class HASSTuyaBLEDeviceManager(AbstaractTuyaBLEDeviceManager):
 
     @staticmethod
     def _has_login(data: dict[Any, Any]) -> bool:
-        # Must have base OpenAPI config
-        base_ok = all(
-            data.get(k) is not None
-            for k in (CONF_ENDPOINT, CONF_ACCESS_ID, CONF_ACCESS_SECRET, CONF_AUTH_TYPE, CONF_APP_TYPE)
-        )
-        if not base_ok:
-            return False
-
-        # Accept either token-based or legacy username/password auth
-        if data.get(CONF_TOKEN_INFO):
-            return True
-
-        return all(data.get(k) is not None for k in (CONF_USERNAME, CONF_PASSWORD))
+        for key in CONF_TUYA_LOGIN_KEYS:
+            if data.get(key) is None:
+                return False
+        return True
 
     @staticmethod
     def _has_credentials(data: dict[Any, Any]) -> bool:
@@ -156,25 +145,16 @@ class HASSTuyaBLEDeviceManager(AbstaractTuyaBLEDeviceManager):
         )
         api.set_dev_channel("hass")
 
-        response: dict[str, Any] = {TUYA_RESPONSE_SUCCESS: False}
-
-        # If token-based login data is provided, skip username/password connect
-        token_info = data.get(CONF_TOKEN_INFO)
-        if token_info:
-            # Directly set token_info into the SDK instance and consider as logged in
-            api.token_info = token_info  # type: ignore[attr-defined]
-            response = {TUYA_RESPONSE_SUCCESS: True}
-        else:
-            response = await self._hass.async_add_executor_job(
-                api.connect,
-                data.get(CONF_USERNAME, ""),
-                data.get(CONF_PASSWORD, ""),
-                "",  # country_code not required for BLE use case
-                data.get(CONF_APP_TYPE, ""),
-            )
+        response = await self._hass.async_add_executor_job(
+            api.connect,
+            data.get(CONF_USERNAME, ""),
+            data.get(CONF_PASSWORD, ""),
+            data.get(CONF_COUNTRY_CODE, ""),
+            data.get(CONF_APP_TYPE, ""),
+        )
 
         if self._is_login_success(response):
-            _LOGGER.debug("Successful login to Tuya Cloud (token=%s)", bool(token_info))
+            _LOGGER.debug("Successful login for %s", data[CONF_USERNAME])
             if add_to_cache:
                 auth_type = data[CONF_AUTH_TYPE]
                 if type(auth_type) is AuthType:
@@ -197,14 +177,9 @@ class HASSTuyaBLEDeviceManager(AbstaractTuyaBLEDeviceManager):
         return await self._login(self._data, add_to_cache)
 
     async def _fill_cache_item(self, item: TuyaCloudCacheItem) -> None:
-        # token_info may be a dict or object; support both
-        token_info = getattr(item.api, "token_info", {})
-        uid = getattr(token_info, "uid", None)
-        if uid is None and isinstance(token_info, dict):
-            uid = token_info.get("uid")
         devices_response = await self._hass.async_add_executor_job(
             item.api.get,
-            TUYA_API_DEVICES_URL % (uid),
+            TUYA_API_DEVICES_URL % (item.api.token_info.uid),
         )
         if devices_response.get(TUYA_RESPONSE_RESULT):
             devices = devices_response.get(TUYA_RESPONSE_RESULT)

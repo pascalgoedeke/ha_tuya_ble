@@ -36,13 +36,6 @@ TUYA_API_FACTORY_INFO_URL: Final = "/v1.0/iot-03/devices/factory-infos?device_id
 TUYA_API_DEVICE_SPECIFICATION: Final = "/v1.1/devices/%s/specifications"
 TUYA_FACTORY_INFO_MAC: Final = "mac"
 
-# QR authentication constants (aligned with official Tuya flow)
-CONF_USER_CODE: Final = "user_code"
-CONF_TOKEN_INFO: Final = "token_info"
-CONF_TERMINAL_ID: Final = "terminal_id"
-TUYA_CLIENT_ID: Final = "HA_3y9q4ak7g4ephrvke"
-TUYA_SCHEMA: Final = "haauthorize"
-
 BATTERY_STATE_LOW: Final = "low"
 BATTERY_STATE_NORMAL: Final = "normal"
 BATTERY_STATE_HIGH: Final = "high"
