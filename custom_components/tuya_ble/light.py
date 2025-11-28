@@ -7,8 +7,9 @@ import logging
 import json
 import copy
 
-from typing import Any, Callable, cast
-from enum import IntEnum, StrEnum, Enum
+from typing import Any, cast
+
+from homeassistant.util import color as color_util
 
 from homeassistant.components.tuya.const import (
     DPCode,
@@ -18,7 +19,7 @@ from homeassistant.components.tuya.const import (
 
 from homeassistant.components.light import (
     ATTR_BRIGHTNESS,
-    ATTR_COLOR_TEMP,
+    ATTR_COLOR_TEMP_KELVIN,
     ATTR_HS_COLOR,
     ColorMode,
     LightEntity,
@@ -623,7 +624,7 @@ class TuyaBLELight(TuyaBLEEntity, LightEntity):
         """Turn on or control the light."""
         commands = [{"code": self.entity_description.key, "value": True}]
 
-        if self._color_temp and ATTR_COLOR_TEMP in kwargs:
+        if self._color_temp and ATTR_COLOR_TEMP_KELVIN in kwargs:
             if self._color_mode_dpcode:
                 commands += [
                     {
@@ -637,7 +638,7 @@ class TuyaBLELight(TuyaBLEEntity, LightEntity):
                     "code": self._color_temp.dpcode,
                     "value": round(
                         self._color_temp.remap_value_from(
-                            kwargs[ATTR_COLOR_TEMP],
+                            kwargs[ATTR_COLOR_TEMP_KELVIN],
                             self.min_mireds,
                             self.max_mireds,
                             reverse=True,
@@ -651,7 +652,7 @@ class TuyaBLELight(TuyaBLEEntity, LightEntity):
             or (
                 ATTR_BRIGHTNESS in kwargs
                 and self.color_mode == ColorMode.HS
-                and ATTR_COLOR_TEMP not in kwargs
+                and ATTR_COLOR_TEMP_KELVIN not in kwargs
             )
         ):
             if self._color_mode_dpcode:
@@ -795,7 +796,7 @@ class TuyaBLELight(TuyaBLEEntity, LightEntity):
         return round(brightness)
 
     @property
-    def color_temp(self) -> int | None:
+    def color_temp_kelvin(self) -> int | None:
         """Return the color_temp of the light."""
         if not self._color_temp:
             return None
@@ -804,9 +805,11 @@ class TuyaBLELight(TuyaBLEEntity, LightEntity):
         if temperature is None:
             return None
 
-        return round(
-            self._color_temp.remap_value_to(
-                temperature, self.min_mireds, self.max_mireds, reverse=True
+        return color_util.color_temperature_mired_to_kelvin(
+            round(
+                self._color_temp.remap_value_to(
+                    temperature, self.min_mireds, self.max_mireds, reverse=True
+                )
             )
         )
 
