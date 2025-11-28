@@ -608,18 +608,36 @@ class TuyaBLEDevice:
             self._fire_disconnected_callbacks()
             return
         self._client = None
-        _LOGGER.warning(
-            "%s: Device unexpectedly disconnected; RSSI: %s",
-            self.address,
-            self.rssi,
-        )
+        
         if was_paired:
-            _LOGGER.debug(
-                "%s: Scheduling reconnect; RSSI: %s",
+            # Decide whether to schedule an automatic reconnect.
+            # For power-saving switches (category "kg") we want to avoid
+            # persistent reconnect attempts because the device sleeps.
+            is_switch_category = False
+            if getattr(self, "category", None) == "kg":
+                is_switch_category = True
+
+            # Don't reconnect if device is switch
+            if is_switch_category:
+                _LOGGER.debug(
+                    "%s: Device unexpectedly disconnected, but category indicates a switch (category=%s); not scheduling automatic reconnect",
+                    self.address,
+                    getattr(self, "category", None),
+                )
+            # Schedule reconnect
+            else:
+                _LOGGER.warning(
+                    "%s: Device unexpectedly disconnected, scheduling reconnect; RSSI: %s",
+                    self.address,
+                    self.rssi,
+                )
+                asyncio.create_task(self._reconnect())
+        else:
+            _LOGGER.warning(
+                "%s: Device unexpectedly disconnected; RSSI: %s",
                 self.address,
                 self.rssi,
             )
-            asyncio.create_task(self._reconnect())
 
     def _disconnect(self) -> None:
         """Disconnect from device."""
