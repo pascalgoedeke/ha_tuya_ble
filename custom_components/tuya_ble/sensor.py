@@ -245,7 +245,6 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
                     dp_id=115,
                     description=SensorEntityDescription(
                         key="battery_percentage",
-                        name="Battery Percentage",
                         device_class=SensorDeviceClass.BATTERY,
                         native_unit_of_measurement=PERCENTAGE,
                         entity_category=EntityCategory.DIAGNOSTIC,
@@ -256,7 +255,6 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
                     dp_id=116,
                     description=SensorEntityDescription(
                         key="battery_charging",
-                        name="Battry Charging",
                         device_class=SensorDeviceClass.ENUM,
                         entity_category=EntityCategory.DIAGNOSTIC,
                         options=[
@@ -561,6 +559,17 @@ class TuyaBLESensor(TuyaBLEEntity, SensorEntity):
                     self._attr_native_value = datapoint.value
             elif self._mapping.default_value is not None:
                 self._attr_native_value = self._mapping.default_value
+                if (
+                    self._mapping.icons is not None
+                    and self.entity_description.options is not None
+                    and self._mapping.default_value
+                    in self.entity_description.options
+                ):
+                    index = self.entity_description.options.index(
+                        self._mapping.default_value
+                    )
+                    if index < len(self._mapping.icons):
+                        self._attr_icon = self._mapping.icons[index]
         self.async_write_ha_state()
     @property
     def available(self) -> bool:

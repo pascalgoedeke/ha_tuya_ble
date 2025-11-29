@@ -144,6 +144,9 @@
       "battery": {
         "name": "Battery percentage"
       },
+      "battery_percentage": {
+        "name": "Battery percentage"
+      },
       "battery_charging": {
         "name": "Battery charging",
         "state": {
