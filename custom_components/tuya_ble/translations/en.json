@@ -148,8 +148,10 @@
         "name": "Battery charging",
         "state": {
           "charged": "Charged",
+          "charge_done": "Charged",
           "charging": "Charging",
-          "not_charging": "Not charging"
+          "not_charging": "Not charging",
+          "none": "Not charging"
         }
       },
       "battery_state": {

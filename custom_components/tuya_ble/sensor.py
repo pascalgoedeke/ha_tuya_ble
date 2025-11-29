@@ -259,9 +259,9 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
                         device_class=SensorDeviceClass.ENUM,
                         entity_category=EntityCategory.DIAGNOSTIC,
                         options=[
-                            BATTERY_NOT_CHARGING,
+                            'none', # doesn't work: BATTERY_NOT_CHARGING,
                             BATTERY_CHARGING,
-                            BATTERY_CHARGED,
+                            'charge_done' # doesn't work: BATTERY_CHARGED,
                         ],
                     ),
                     icons=[
