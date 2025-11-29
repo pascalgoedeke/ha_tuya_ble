@@ -91,12 +91,6 @@
       },
       "double_tap_interval_2": {
         "name": "Double-tap interval 2"
-      },
-      "custom_timer_1": {
-        "name": "Custom timer 1"
-      },
-      "custom_timer_2": {
-        "name": "Custom timer 2"
       }
     },
     "select": {

@@ -483,31 +483,6 @@ mapping: dict[str, TuyaBLECategoryNumberMapping] = {
                     ),
                     coefficient=10.0,
                 ),
-                # Custom timers per channel
-                TuyaBLENumberMapping(
-                    dp_id=109,
-                    description=NumberEntityDescription(
-                        key="custom_timer_1",
-                        icon="mdi:timer-cog",
-                        native_max_value=86400,
-                        native_min_value=0,
-                        native_unit_of_measurement=UnitOfTime.SECONDS,
-                        native_step=1,
-                        entity_category=EntityCategory.CONFIG,
-                    ),
-                ),
-                TuyaBLENumberMapping(
-                    dp_id=110,
-                    description=NumberEntityDescription(
-                        key="custom_timer_2",
-                        icon="mdi:timer-cog",
-                        native_max_value=86400,
-                        native_min_value=0,
-                        native_unit_of_measurement=UnitOfTime.SECONDS,
-                        native_step=1,
-                        entity_category=EntityCategory.CONFIG,
-                    ),
-                ),
             ],
         },
     ),
