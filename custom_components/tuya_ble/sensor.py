@@ -48,6 +48,7 @@ class TuyaBLESensorMapping:
     coefficient: float = 1.0
     icons: list[str] | None = None
     is_available: TuyaBLESensorIsAvailable = None
+    default_value: str | int | float | None = None
 @dataclass
 class TuyaBLEBatteryMapping(TuyaBLESensorMapping):
     description: SensorEntityDescription = field(
@@ -269,6 +270,8 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
                         "mdi:power-plug-battery",
                         "mdi:battery-check",
                     ],
+                    # If neither charging nor done, the device doesn't send any data
+                    default_value='none',
                 ),
             ],
         },
@@ -556,6 +559,8 @@ class TuyaBLESensor(TuyaBLEEntity, SensorEntity):
                     )
                 else:
                     self._attr_native_value = datapoint.value
+            elif self._mapping.default_value is not None:
+                self._attr_native_value = self._mapping.default_value
         self.async_write_ha_state()
     @property
     def available(self) -> bool:
