@@ -30,8 +30,11 @@ CONF_ACCESS_ID: Final = "access_id"
 CONF_ACCESS_SECRET: Final = "access_secret"
 CONF_APP_TYPE: Final = "tuya_app_type"
 TUYA_RESPONSE_CODE: Final = "code"
+TUYA_RESPONSE_RESULT: Final = "result"
 TUYA_RESPONSE_MSG: Final = "msg"
 TUYA_RESPONSE_SUCCESS: Final = "success"
+
+TUYA_DOMAIN: Final = "tuya"
 
 SMARTLIFE_APP = "smartlife"
 TUYA_SMART_APP = "tuyaSmart"
