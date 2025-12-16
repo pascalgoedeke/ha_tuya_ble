@@ -60,6 +60,8 @@ FINGERBOT_MODE_SWITCH: Final = "switch"
 FINGERBOT_MODE_PROGRAM: Final = "program"
 FINGERBOT_BUTTON_EVENT: Final = "fingerbot_button_pressed"
 
+CONNECTED_DP_ID = -2
+
 @dataclass
 class Country:
     """Describe a supported country."""
