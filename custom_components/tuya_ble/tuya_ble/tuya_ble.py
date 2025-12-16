@@ -268,6 +268,7 @@ class TuyaBLEDevice:
         self._connected_callbacks: list[Callable[[], None]] = []
         self._callbacks: list[Callable[[list[TuyaBLEDataPoint]], None]] = []
         self._disconnected_callbacks: list[Callable[[], None]] = []
+        self._connection_status_callbacks: list[Callable[[], None]] = []
         self._current_seq_num = 1
         self._seq_num_lock = asyncio.Lock()
 
@@ -431,6 +432,11 @@ class TuyaBLEDevice:
             return self._ble_device.name or self._ble_device.address
 
     @property
+    def connected(self) -> bool:
+        """Return if connected to device."""
+        return self._client is not None and self._client.is_connected and self._is_paired
+
+    @property
     def rssi(self) -> int | None:
         """Get the rssi of the device."""
         if self._advertisement_data:
@@ -585,6 +591,22 @@ class TuyaBLEDevice:
         self._disconnected_callbacks.append(callback)
         return unregister_callback
 
+    def _fire_connection_status_callbacks(self) -> None:
+        """Fire the callbacks."""
+        for callback in self._connection_status_callbacks:
+            callback()
+
+    def register_connection_status_callback(
+        self, callback: Callable[[], None]
+    ) -> Callable[[], None]:
+        """Register a callback to be called when connection status changes."""
+
+        def unregister_callback() -> None:
+            self._connection_status_callbacks.remove(callback)
+
+        self._connection_status_callbacks.append(callback)
+        return unregister_callback
+
     async def start(self):
         """Start the TuyaBLE."""
         _LOGGER.debug("%s: Starting...", self.address)
@@ -606,8 +628,10 @@ class TuyaBLEDevice:
                 self.rssi,
             )
             self._fire_disconnected_callbacks()
+            self._fire_connection_status_callbacks()
             return
         self._client = None
+        self._fire_connection_status_callbacks()
         
         if was_paired:
             # Decide whether to schedule an automatic reconnect.
@@ -793,6 +817,7 @@ class TuyaBLEDevice:
                 if self._is_paired:
                     _LOGGER.debug("%s: Successfully connected", self.address)
                     self._fire_connected_callbacks()
+                    self._fire_connection_status_callbacks()
                 else:
                     _LOGGER.error("%s: Connected but not paired", self.address)
             else:
