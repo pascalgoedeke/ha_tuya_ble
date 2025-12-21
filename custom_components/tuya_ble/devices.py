@@ -437,6 +437,17 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
                     ),
                 ),
             ),
+            "4ctjfrzq": TuyaBLEProductInfo(
+                name="Fingerbot",
+                fingerbot=TuyaBLEFingerbotInfo(
+                    switch=1,
+                    mode=101,
+                    up_position=0,  # Not available
+                    down_position=102,
+                    hold_time=103,
+                    reverse_positions=104,
+                ),
+            ),
             # Fingerbot Touch (bs3ubslo) — separate device type
             "bs3ubslo": TuyaBLEProductInfo(
                 name="Fingerbot Touch",
