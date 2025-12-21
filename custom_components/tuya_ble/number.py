@@ -400,6 +400,33 @@ mapping: dict[str, TuyaBLECategoryNumberMapping] = {
                     ),
                 ],
             ),
+            "4ctjfrzq": [
+                TuyaBLENumberMapping(
+                    dp_id=102,
+                    description=NumberEntityDescription(
+                        key="rotate_angle",
+                        icon="mdi:rotate-3d-variant",
+                        native_max_value=90,
+                        native_min_value=-90,
+                        native_unit_of_measurement="°",
+                        native_step=1,
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                    is_available=is_fingerbot_not_in_program_mode,
+                ),
+                TuyaBLEHoldTimeMapping(dp_id=103),
+                TuyaBLENumberMapping(
+                    dp_id=119,
+                    description=NumberEntityDescription(
+                        key="resistance",
+                        icon="mdi:swap-horizontal-bold",
+                        native_max_value=20,
+                        native_min_value=10,
+                        native_step=1,
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                ),
+            ],
             # Fingerbot Touch specific numbers
             "bs3ubslo": [
                 # Touch duration per channel
