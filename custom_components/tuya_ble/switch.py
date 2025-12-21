@@ -310,6 +310,18 @@ mapping: dict[str, TuyaBLECategorySwitchMapping] = {
                     ),
                 ],
             ),
+            "4ctjfrzq": [
+                TuyaBLEFingerbotSwitchMapping(dp_id=1),
+                TuyaBLEReversePositionsMapping(dp_id=104),
+                TuyaBLESwitchMapping(
+                    dp_id=121,
+                    description=SwitchEntityDescription(
+                        key="adaptive_movement",
+                        icon="mdi:robot",
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                ),
+            ],
             # Fingerbot Touch
             "bs3ubslo": [
                 # Primary switches

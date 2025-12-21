@@ -164,6 +164,9 @@ mapping: dict[str, TuyaBLECategorySelectMapping] = {
                     TuyaBLEFingerbotModeMapping(dp_id=101),
                 ],
             ),
+            "4ctjfrzq": [
+                TuyaBLEFingerbotModeMapping(dp_id=101),
+            ],
             # Fingerbot Touch: per-channel mode selectors
             "bs3ubslo": [
                 TuyaBLESelectMapping(
