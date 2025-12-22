@@ -24,9 +24,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 TuyaBLEButtonIsAvailable = Callable[["TuyaBLEButton", TuyaBLEProductInfo], bool] | None
-TuyaBLEActionButtonIsAvailable = (
-    Callable[["TuyaBLEActionButton", TuyaBLEProductInfo], bool] | None
-)
+TuyaBLEActionButtonIsAvailable = Callable[["TuyaBLEActionButton", TuyaBLEProductInfo], bool] | None
 
 
 @dataclass
@@ -248,6 +246,21 @@ class TuyaBLEActionButton(TuyaBLEEntity, ButtonEntity):
         super().__init__(hass, coordinator, device, product, mapping.description)
         self._mapping = mapping
 
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        self.async_write_ha_state()
+    
+    async def async_added_to_hass(self) -> None:
+        """Set up device update callbacks."""
+        await super().async_added_to_hass()
+        # Register callback for connection status changes
+        self.async_on_remove(
+            self._device.register_connection_status_callback(
+                self._handle_coordinator_update
+            )
+        )
+
     def press(self) -> None:
         """Press the button."""
         self._hass.create_task(self._mapping.action(self._device))
@@ -292,7 +305,7 @@ async def async_setup_entry(
                 icon="mdi:restart",
             ),
             action=lambda device: device.reconnect(),
-            is_available=lambda self, product: not self.device.connected,
+            is_available=lambda self, product: not self._device.connected
         ),
         TuyaBLEActionButtonMapping(
             description=ButtonEntityDescription(
@@ -301,7 +314,7 @@ async def async_setup_entry(
                 icon="mdi:sync",
             ),
             action=lambda device: device.reconnect_and_update(),
-            is_available=lambda self, product: not self.device.connected,
+            is_available=lambda self, product: not self._device.connected
         ),
     ]
     for mapping in action_mappings:
