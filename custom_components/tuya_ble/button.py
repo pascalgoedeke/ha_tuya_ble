@@ -228,9 +228,10 @@ class TuyaBLEButton(TuyaBLEEntity, ButtonEntity):
     @property
     def available(self) -> bool:
         """Return if entity is available."""
-        if self._mapping.is_available:
-            return self._mapping.is_available(self, self._product)
-        return super().available
+        result = super().available
+        if result and self._mapping.is_available:
+            result = self._mapping.is_available(self, self._product)
+        return result
 
 
 class TuyaBLEActionButton(TuyaBLEEntity, ButtonEntity):
@@ -288,6 +289,7 @@ async def async_setup_entry(
             description=ButtonEntityDescription(
                 key="reconnect",
                 entity_category=EntityCategory.DIAGNOSTIC,
+                icon="mdi:restart",
             ),
             action=lambda device: device.reconnect(),
             is_available=lambda self, product: not self.device.connected,
