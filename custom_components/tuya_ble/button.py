@@ -4,15 +4,13 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 import logging
-from typing import Awaitable, Callable
+from typing import Callable
 
 from homeassistant.components.button import (
     ButtonEntityDescription,
     ButtonEntity,
-    ButtonDeviceClass,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
@@ -25,21 +23,18 @@ _LOGGER = logging.getLogger(__name__)
 
 
 TuyaBLEButtonIsAvailable = Callable[["TuyaBLEButton", TuyaBLEProductInfo], bool] | None
-TuyaBLEButtonAction = Callable[[TuyaBLEDevice], Awaitable[None]] | None
 
 
 @dataclass
 class TuyaBLEButtonMapping:
+    dp_id: int
     description: ButtonEntityDescription
-    dp_id: int | None = None
     force_add: bool = True
-    action: TuyaBLEButtonAction = None
-    available_when_disconnected: bool = False
     dp_type: TuyaBLEDataPointType | None = None
     is_available: TuyaBLEButtonIsAvailable = None
 
 
-def is_fingerbot_in_push_mode(self: "TuyaBLEButton", product: TuyaBLEProductInfo) -> bool:
+def is_fingerbot_in_push_mode(self: TuyaBLEButton, product: TuyaBLEProductInfo) -> bool:
     result: bool = True
     if product.fingerbot:
         datapoint = self._device.datapoints[product.fingerbot.mode]
@@ -57,7 +52,6 @@ class TuyaBLEFingerbotModeMapping(TuyaBLEButtonMapping):
     )
     is_available: TuyaBLEButtonIsAvailable = is_fingerbot_in_push_mode
 
-
 @dataclass
 class TuyaBLELockMapping(TuyaBLEButtonMapping):
     description: ButtonEntityDescription = field(
@@ -67,33 +61,10 @@ class TuyaBLELockMapping(TuyaBLEButtonMapping):
     )
     is_available: TuyaBLEButtonIsAvailable = 0
 
-
 @dataclass
 class TuyaBLECategoryButtonMapping:
     products: dict[str, list[TuyaBLEButtonMapping]] | None = None
     mapping: list[TuyaBLEButtonMapping] | None = None
-
-
-action_buttons: list[TuyaBLEButtonMapping] = [
-    TuyaBLEButtonMapping(
-        description=ButtonEntityDescription(
-            key="reconnect",
-            device_class=ButtonDeviceClass.RESTART,
-            entity_category=EntityCategory.DIAGNOSTIC,
-        ),
-        action=lambda device: device.reconnect(),
-        available_when_disconnected=True,
-    ),
-    TuyaBLEButtonMapping(
-        description=ButtonEntityDescription(
-            key="reconnect_and_refresh",
-            device_class=ButtonDeviceClass.UPDATE,
-            entity_category=EntityCategory.DIAGNOSTIC,
-        ),
-        action=lambda device: device.reconnect_and_update(),
-        available_when_disconnected=True,
-    ),
-]
 
 
 mapping: dict[str, TuyaBLECategoryButtonMapping] = {
@@ -201,7 +172,7 @@ mapping: dict[str, TuyaBLECategoryButtonMapping] = {
 }
 
 
-def get_mapping_by_device(device: TuyaBLEDevice) -> list[TuyaBLEButtonMapping]:
+def get_mapping_by_device(device: TuyaBLEDevice) -> list[TuyaBLECategoryButtonMapping]:
     category = mapping.get(device.category)
     if category is not None and category.products is not None:
         product_mapping = category.products.get(device.product_id)
@@ -209,7 +180,10 @@ def get_mapping_by_device(device: TuyaBLEDevice) -> list[TuyaBLEButtonMapping]:
             return product_mapping
         if category.mapping is not None:
             return category.mapping
-    return []
+        else:
+            return []
+    else:
+        return []
 
 
 class TuyaBLEButton(TuyaBLEEntity, ButtonEntity):
@@ -228,28 +202,21 @@ class TuyaBLEButton(TuyaBLEEntity, ButtonEntity):
 
     def press(self) -> None:
         """Press the button."""
-        if self._mapping.action:
-            self._hass.create_task(self._mapping.action(self._device))
-        elif self._mapping.dp_id:
-            datapoint = self._device.datapoints.get_or_create(
-                self._mapping.dp_id,
-                TuyaBLEDataPointType.DT_BOOL,
-                False,
-            )
-            if datapoint:
-                if getattr(
-                    self._product, "lock", False
-                ):  # Safely check if 'lock' exists and is True
-                    # Lock needs true to activate lock/unlock commands
-                    self._hass.create_task(datapoint.set_value(True))
-                else:
-                    self._hass.create_task(datapoint.set_value(not bool(datapoint.value)))
+        datapoint = self._device.datapoints.get_or_create(
+            self._mapping.dp_id,
+            TuyaBLEDataPointType.DT_BOOL,
+            False,
+        )
+        if datapoint:
+            if getattr(self._product, "lock", False):  # Safely check if 'lock' exists and is True
+                #Lock needs true to activate lock/unlock commands
+                self._hass.create_task(datapoint.set_value(True))
+            else:
+                self._hass.create_task(datapoint.set_value(not bool(datapoint.value)))
 
     @property
     def available(self) -> bool:
         """Return if entity is available."""
-        if self._mapping.available_when_disconnected:
-            return not self.coordinator.connected
         result = super().available
         if result and self._mapping.is_available:
             result = self._mapping.is_available(self, self._product)
@@ -263,23 +230,11 @@ async def async_setup_entry(
 ) -> None:
     """Set up the Tuya BLE sensors."""
     data: TuyaBLEData = hass.data[DOMAIN][entry.entry_id]
-    entities: list[TuyaBLEButton] = []
-    for button_mapping in action_buttons:
-        entities.append(
-            TuyaBLEButton(
-                hass,
-                data.coordinator,
-                data.device,
-                data.product,
-                button_mapping,
-            )
-        )
     mappings = get_mapping_by_device(data.device)
+    entities: list[TuyaBLEButton] = []
     for mapping in mappings:
-        if (
-            mapping.force_add
-            or mapping.dp_id is None
-            or data.device.datapoints.has_id(mapping.dp_id, mapping.dp_type)
+        if mapping.force_add or data.device.datapoints.has_id(
+            mapping.dp_id, mapping.dp_type
         ):
             entities.append(
                 TuyaBLEButton(
