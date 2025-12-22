@@ -335,6 +335,13 @@ class TuyaBLEDevice:
             TuyaBLECode.FUN_SENDER_PAIR, self._build_pairing_request()
         )
 
+    async def reconnect(self) -> None:
+        await self._ensure_connected()
+
+    async def reconnect_and_update(self) -> None:
+        await self._ensure_connected()
+        await self.update()
+
     async def update(self) -> None:
         _LOGGER.debug("%s: Updating", self.address)
         await self._send_packet(TuyaBLECode.FUN_SENDER_DEVICE_STATUS, bytes())
