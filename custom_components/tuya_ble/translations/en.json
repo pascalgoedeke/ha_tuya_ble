@@ -97,6 +97,12 @@
       },
       "double_tap_interval_2": {
         "name": "Double-tap interval 2"
+      },
+      "rotate_angle": {
+        "name": "Rotation angle"
+      },
+      "resistance": {
+        "name": "Resistance"
       }
     },
     "select": {
@@ -213,6 +219,9 @@
       },
       "time_left": {
           "name": "Remaining irrigation time"
+      },
+      "total_movement": {
+        "name": "Movement statistics"
       }
     },
     "switch": {
@@ -281,7 +290,13 @@
       },
       "switch_invert_2": {
         "name": "Invert switch 2"
-      }    
+      },
+      "adaptive_movement": {
+        "name": "Adaptive movement"
+      },
+      "click": {
+        "name": "Click"
+      }
     },
     "text": {
       "program": {
