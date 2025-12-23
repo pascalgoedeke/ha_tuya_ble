@@ -171,6 +171,13 @@ mapping: dict[str, TuyaBLECategorySwitchMapping] = {
                         entity_category=EntityCategory.CONFIG,
                     ),
                 ),
+                TuyaBLESwitchMapping(
+                    dp_id=108,
+                    description=SwitchEntityDescription(
+                        key="click",
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                ),
             ],
         },
     ),

@@ -260,6 +260,14 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
                     ],
                     default_value=BATTERY_NOT_CHARGING,
                 ),
+                TuyaBLESensorMapping(
+                    dp_id=111,
+                    description=SensorEntityDescription(
+                        key="total_movement",
+                        entity_category=EntityCategory.DIAGNOSTIC,
+                        state_class=SensorStateClass.TOTAL_INCREASING,
+                    ),
+                ),
             ],
             # Fingerbot Touch
             "bs3ubslo": [
