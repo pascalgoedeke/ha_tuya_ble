@@ -11,7 +11,8 @@ from homeassistant.components.button import (
     ButtonEntity,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -23,6 +24,14 @@ _LOGGER = logging.getLogger(__name__)
 
 
 TuyaBLEButtonIsAvailable = Callable[["TuyaBLEButton", TuyaBLEProductInfo], bool] | None
+TuyaBLEActionButtonIsAvailable = Callable[["TuyaBLEActionButton", TuyaBLEProductInfo], bool] | None
+
+
+@dataclass
+class TuyaBLEActionButtonMapping:
+    description: ButtonEntityDescription
+    action: Callable[[TuyaBLEDevice], Awaitable]
+    is_available: TuyaBLEActionButtonIsAvailable = None
 
 
 @dataclass
@@ -223,6 +232,48 @@ class TuyaBLEButton(TuyaBLEEntity, ButtonEntity):
         return result
 
 
+class TuyaBLEActionButton(TuyaBLEEntity, ButtonEntity):
+    """Representation of a Tuya BLE Action Button."""
+
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        coordinator: DataUpdateCoordinator,
+        device: TuyaBLEDevice,
+        product: TuyaBLEProductInfo,
+        mapping: TuyaBLEActionButtonMapping,
+    ) -> None:
+        super().__init__(hass, coordinator, device, product, mapping.description)
+        self._mapping = mapping
+
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        self.async_write_ha_state()
+    
+    async def async_added_to_hass(self) -> None:
+        """Set up device update callbacks."""
+        await super().async_added_to_hass()
+        # Register callback for connection status changes
+        self.async_on_remove(
+            self._device.register_connection_status_callback(
+                self._handle_coordinator_update
+            )
+        )
+
+    def press(self) -> None:
+        """Press the button."""
+        self._hass.create_task(self._mapping.action(self._device))
+
+    @property
+    def available(self) -> bool:
+        """Return if entity is available."""
+        result = super().available
+        if result and self._mapping.is_available:
+            result = self._mapping.is_available(self, self._product)
+        return result
+
+
 async def async_setup_entry(
     hass: HomeAssistant,
     entry: ConfigEntry,
@@ -230,9 +281,9 @@ async def async_setup_entry(
 ) -> None:
     """Set up the Tuya BLE sensors."""
     data: TuyaBLEData = hass.data[DOMAIN][entry.entry_id]
-    mappings = get_mapping_by_device(data.device)
     entities: list[TuyaBLEButton] = []
-    for mapping in mappings:
+
+    for mapping in get_mapping_by_device(data.device):
         if mapping.force_add or data.device.datapoints.has_id(
             mapping.dp_id, mapping.dp_type
         ):
@@ -245,4 +296,36 @@ async def async_setup_entry(
                     mapping,
                 )
             )
+
+    action_mappings: list[TuyaBLEActionButtonMapping] = [
+        TuyaBLEActionButtonMapping(
+            description=ButtonEntityDescription(
+                key="reconnect",
+                entity_category=EntityCategory.DIAGNOSTIC,
+                icon="mdi:restart",
+            ),
+            action=lambda device: device.reconnect(),
+            is_available=lambda self, product: not self._device.connected
+        ),
+        TuyaBLEActionButtonMapping(
+            description=ButtonEntityDescription(
+                key="reconnect_and_refresh",
+                entity_category=EntityCategory.DIAGNOSTIC,
+                icon="mdi:sync",
+            ),
+            action=lambda device: device.reconnect_and_update(),
+            is_available=lambda self, product: not self._device.connected
+        ),
+    ]
+    for mapping in action_mappings:
+        entities.append(
+            TuyaBLEActionButton(
+                hass,
+                data.coordinator,
+                data.device,
+                data.product,
+                mapping,
+            )
+        )
+
     async_add_entities(entities)

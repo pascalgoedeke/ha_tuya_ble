@@ -41,6 +41,12 @@
       },
       "action_2": {
         "name": "Action 2"
+      },
+      "reconnect": {
+        "name": "Reconnect"
+      },
+      "reconnect_and_refresh": {
+        "name": "Reconnect and Refresh"
       }
     },
     "number": {
