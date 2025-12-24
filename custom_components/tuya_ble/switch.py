@@ -171,13 +171,6 @@ mapping: dict[str, TuyaBLECategorySwitchMapping] = {
                         entity_category=EntityCategory.CONFIG,
                     ),
                 ),
-                TuyaBLESwitchMapping(
-                    dp_id=108,
-                    description=SwitchEntityDescription(
-                        key="click",
-                        entity_category=EntityCategory.CONFIG,
-                    ),
-                ),
             ],
         },
     ),
@@ -325,6 +318,14 @@ mapping: dict[str, TuyaBLECategorySwitchMapping] = {
                     description=SwitchEntityDescription(
                         key="adaptive_movement",
                         icon="mdi:robot",
+                        entity_category=EntityCategory.CONFIG,
+                    ),
+                ),
+                TuyaBLESwitchMapping(
+                    dp_id=108,
+                    description=SwitchEntityDescription(
+                        key="click",
+                        icon="mdi:message-question",
                         entity_category=EntityCategory.CONFIG,
                     ),
                 ),

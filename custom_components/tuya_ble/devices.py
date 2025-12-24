@@ -438,7 +438,7 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
                 ),
             ),
             "4ctjfrzq": TuyaBLEProductInfo(
-                name="Fingerbot",
+                name="Fingerbot Switch Robot",
                 fingerbot=TuyaBLEFingerbotInfo(
                     switch=1,
                     mode=101,
