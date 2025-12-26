@@ -425,7 +425,7 @@ mapping: dict[str, TuyaBLECategoryNumberMapping] = {
                         native_step=1,
                         entity_category=EntityCategory.CONFIG,
                     ),
-                    coefficient=0.1,
+                    coefficient=10,
                 ),
             ],
             # Fingerbot Touch specific numbers
