@@ -423,6 +423,7 @@ mapping: dict[str, TuyaBLECategoryNumberMapping] = {
                         native_max_value=20,
                         native_min_value=10,
                         native_step=1,
+                        coefficient=0.1,
                         entity_category=EntityCategory.CONFIG,
                     ),
                 ),
