@@ -294,8 +294,8 @@
       "adaptive_movement": {
         "name": "Adaptive movement"
       },
-      "click": {
-        "name": "Click Test"
+      "push_toggle": {
+        "name": "Push (Toggle)"
       }
     },
     "text": {
