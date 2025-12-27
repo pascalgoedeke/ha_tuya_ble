@@ -72,6 +72,17 @@ def is_fingerbot_in_switch_mode(
     return result
 
 
+def is_fingerbot_in_push_mode(
+    self: TuyaBLEButton, product: TuyaBLEProductInfo
+) -> bool:
+    result: bool = True
+    if product.fingerbot:
+        datapoint = self._device.datapoints[product.fingerbot.mode]
+        if datapoint:
+            result = datapoint.value == 0
+    return result
+
+
 def get_fingerbot_program_repeat_forever(
     self: TuyaBLESwitch, product: TuyaBLEProductInfo
 ) -> bool | None:
@@ -312,20 +323,20 @@ mapping: dict[str, TuyaBLECategorySwitchMapping] = {
             ),
             "4ctjfrzq": [
                 TuyaBLEFingerbotSwitchMapping(dp_id=1),
+                TuyaBLESwitchMapping(
+                    dp_id=108,
+                    description=SwitchEntityDescription(
+                        key="push_toggle",
+                        icon="mdi:button-pointer"
+                    ),
+                    is_available: TuyaBLESwitchIsAvailable = is_fingerbot_in_push_mode
+                ),
                 TuyaBLEReversePositionsMapping(dp_id=104),
                 TuyaBLESwitchMapping(
                     dp_id=121,
                     description=SwitchEntityDescription(
                         key="adaptive_movement",
                         icon="mdi:robot",
-                        entity_category=EntityCategory.CONFIG,
-                    ),
-                ),
-                TuyaBLESwitchMapping(
-                    dp_id=108,
-                    description=SwitchEntityDescription(
-                        key="click",
-                        icon="mdi:message-question",
                         entity_category=EntityCategory.CONFIG,
                     ),
                 ),
