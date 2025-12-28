@@ -329,7 +329,7 @@ mapping: dict[str, TuyaBLECategorySwitchMapping] = {
                         key="push_toggle",
                         icon="mdi:button-pointer"
                     ),
-                    is_available: TuyaBLESwitchIsAvailable = is_fingerbot_in_push_mode
+                    is_available=is_fingerbot_in_push_mode
                 ),
                 TuyaBLEReversePositionsMapping(dp_id=104),
                 TuyaBLESwitchMapping(
