@@ -123,6 +123,9 @@ mapping: dict[str, TuyaBLECategoryButtonMapping] = {
                     TuyaBLEFingerbotModeMapping(dp_id=108),
                 ],
             ),
+            "4ctjfrzq": [
+                TuyaBLEFingerbotModeMapping(dp_id=1),
+            ],
             # Fingerbot Touch (bs3ubslo): expose per-channel action buttons when in Push mode
             "bs3ubslo": [
                 TuyaBLEButtonMapping(
