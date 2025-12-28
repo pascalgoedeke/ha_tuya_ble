@@ -73,7 +73,7 @@ def is_fingerbot_in_switch_mode(
 
 
 def is_fingerbot_in_push_mode(
-    self: TuyaBLEButton, product: TuyaBLEProductInfo
+    self: TuyaBLESwitch, product: TuyaBLEProductInfo
 ) -> bool:
     result: bool = True
     if product.fingerbot:
