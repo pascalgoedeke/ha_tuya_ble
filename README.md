@@ -2,14 +2,14 @@
 
 ## Overview
 
-This integration supports Tuya devices connected via BLE.
+This integration supports Tuya devices locally connected via BLE.
 
-_Inspired by code of [@redphx](https://github.com/redphx/poc-tuya-ble-fingerbot)_
+It includes support for **Fingerbot Touch** (product_id 'bs3ubslo') and is primarily maintained for use with Fingerbots.
 
-_Original HASS component forked from https://github.com/PlusPlus-ua/ha_tuya_ble_
-
-_Merged several changes by @airy10 and @patriot1889, including light support_
-
+**Note on Battery Saving:** These devices usually enter sleep mode after 5 minutes of inactivity.
+To prevent battery drain, automatic reconnection is disabled.
+The connection will reestablish automatically when an action is triggered (potentially introducing a slight delay).
+You can also use the provided Home Assistant connection status entities and reconnect / reload buttons to reconnect manually.
 
 ## Installation
 
@@ -21,45 +21,64 @@ Place the `custom_components` folder in your configuration directory (or add its
 
 After adding to Home Assistant integration should discover all supported Bluetooth devices, or you can add discoverable devices manually.
 
-The integration works locally, but connection to Tuya BLE device requires device ID and encryption key from Tuya IOT cloud. It could be obtained using the same credentials as in official Tuya integration. To obtain the credentials, please refer to *old* official Tuya integration [documentation](https://web.archive.org/web/20240204064157/https://www.home-assistant.io/integrations/tuya/)
+The integration works locally, but connection to Tuya BLE device requires device ID and encryption key from Tuya IOT cloud.
+To obtain the credentials, please refer to *old* official Tuya integration [documentation](https://web.archive.org/web/20240204064157/https://www.home-assistant.io/integrations/tuya/).
 
-## Supported devices list (not up to date)
+## Credits
+
+_Inspired by code of [@redphx](https://github.com/redphx/poc-tuya-ble-fingerbot)_
+
+_Original HASS component forked from https://github.com/PlusPlus-ua/ha_tuya_ble_
+
+_Merged several changes by @airy10 and @patriot1889, including light support, forked from https://github.com/garnser/ha_tuya_ble_
+
+## Supported devices list
 
 * Fingerbots (category_id 'szjqr')
   + Fingerbot (product_ids 'ltak7e1p', 'y6kttvd6', 'yrnk7mnn', 'nvr2rocq', 'bnt7wajf', 'rvdceqjh', '5xhbk964'), original device, first in category, powered by CR2 battery.
   + Adaprox Fingerbot (product_id 'y6kttvd6'), built-in battery with USB type C charging.
-  + Fingerbot Plus (product_ids 'blliqpsj', 'ndvkgsrm', 'yiihr7zh', 'neq16kgd', 'mknd4lci', 'riecov42'), almost same as original, has sensor button for manual control.
-  + Fingerbot Touch (product_id 'bs3ubslo')
+  + Fingerbot Plus (product_ids 'blliqpsj', 'ndvkgsrm', 'yiihr7zh', 'neq16kgd'), almost same as original, has sensor button for manual control.
   + CubeTouch 1s (product_id '3yqdo5yt'), built-in battery with USB type C charging.
   + CubeTouch II (product_id 'xhf790if'), built-in battery with USB type C charging.
 
   All features available in Home Assistant, programming (series of actions) is implemented for Fingerbot Plus.
-  For programming exposed entities 'Program' (switch), 'Repeat forever', 'Repeats count', 'Idle position' and 'Program' (text). Format of program text is: 'position\[/time\];...' where position is in percents, optional time is in seconds (zero if missing).
+  For programming exposed entities 'Program' (switch), 'Repeat forever', 'Repeats count', 'Idle position' and 'Program' (text). Format of program text is: 'position[/time];...' where position is in percents, optional time is in seconds (zero if missing).
+
+* Fingerbots (category_id 'kg')
+  + Fingerbot Plus (product_ids 'mknd4lci', 'riecov42').
+  + Fingerbot Switch Robot (product_id '4ctjfrzq').
+  + Fingerbot Touch (product_id 'bs3ubslo').
 
 * Temperature and humidity sensors (category_id 'wsdcg')
   + Soil moisture sensor (product_id 'ojzlzzsw').
-
-* Temperature and humidity sensors (category_id 'zwjcy')
-  + Smartlife Plant Sensor SGS01 (product_id 'gvygg3m8').
+  + Soil Thermo-Hygrometer (product_id 'tv6peegl').
 
 * CO2 sensors (category_id 'co2bj')
   + CO2 Detector (product_id '59s19z5m').
 
 * Smart Locks (category_id 'ms')
-  + Smart Lock (product_id 'ludzroix', 'isk2p555', 'gumrixyt').
+  + Smart Lock (product_ids 'ludzroix', 'isk2p555', 'gumrixyt', 'uamrw6h3').
+  + TEKXDD Fingerprint Smart Lock (product_id 'okkyfgfs').
 
 * Climate (category_id 'wk')
-  + Thermostatic Radiator Valve (product_ids 'drlajpqc', 'nhj2j7su').
+  + Thermostatic Radiator Valve (product_ids 'drlajpqc', 'nhj2j7su', 'zmachryv').
 
 * Smart water bottle (category_id 'znhsb')
-  + Smart water bottle (product_id 'cdlandip')
+  + Smart water bottle (product_id 'cdlandip').
+
+* Smart Water Valve (category_id 'sfkzq')
+  + Smart Water Valve (product_id 'nxquc5lb').
 
 * Irrigation computer (category_id 'ggq')
-  + Irrigation computer (product_id '6pahkcau')
-  + 2-outlet irrigation computer SGW02 (product_id 'hfgdqhho'), also known as MOES BWV-YC02-EU-GY
+  + Irrigation computer (product_id '6pahkcau').
+  + 2-outlet irrigation computer SGW02 (product_id 'hfgdqhho'), also known as MOES BWV-YC02-EU-GY.
 
-* Lights
-  + Most light products should be supported as the Light class tries to get device description from the cloud when there are added but only Strip Lights (category_id 'dd') Magiacous RGB light bar (product_id 'nvfrtxlq') has has been tested
+* Lights (category_id 'dd')
+  + LGB102 Magic Strip Lights (product_id 'nvfrtxlq').
+  + Most light products should be supported as the Light class tries to get device description from the cloud when they are added.
+
+* Smart Bulbs (category_id 'dj')
+  + SSG Smart 9W (product_id 'u4h3jtqr').
 
 ## Support project
 _The following is a comment from the original developer which deserves to stay_
