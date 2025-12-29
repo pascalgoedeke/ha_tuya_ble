@@ -264,15 +264,16 @@ LIGHTS: dict[str, tuple[TuyaLightEntityDescription, ...]] = {
             color_data=DPCode.COLOUR_DATA_HSV,
         ),
     ),
-    # Switch
-    # https://developer.tuya.com/en/docs/iot/s?id=K9gf7o5prgf7s
-    "kg": (
-        TuyaLightEntityDescription(
-            key=DPCode.SWITCH_BACKLIGHT,
-            translation_key="backlight",
-            entity_category=EntityCategory.CONFIG,
-        ),
-    ),
+    # # Switch
+    # # https://developer.tuya.com/en/docs/iot/s?id=K9gf7o5prgf7s
+    # # Backlight doesn't actually exist (?)
+    # "kg": (
+    #     TuyaLightEntityDescription(
+    #         key=DPCode.SWITCH_BACKLIGHT,
+    #         translation_key="backlight",
+    #         entity_category=EntityCategory.CONFIG,
+    #     ),
+    # ),
     # Air Purifier
     # https://developer.tuya.com/en/docs/iot/f?id=K9gf46h2s6dzm
     "kj": (
