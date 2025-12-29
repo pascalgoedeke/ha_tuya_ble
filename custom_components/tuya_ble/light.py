@@ -453,13 +453,13 @@ LIGHTS: dict[str, tuple[TuyaLightEntityDescription, ...]] = {
     ),
 }
 
-# Socket (duplicate of `kg`)
-# https://developer.tuya.com/en/docs/iot/s?id=K9gf7o5prgf7s
-LIGHTS["cz"] = LIGHTS["kg"]
+# # Socket (duplicate of `kg`)
+# # https://developer.tuya.com/en/docs/iot/s?id=K9gf7o5prgf7s
+# LIGHTS["cz"] = LIGHTS["kg"]
 
-# Power Socket (duplicate of `kg`)
-# https://developer.tuya.com/en/docs/iot/s?id=K9gf7o5prgf7s
-LIGHTS["pc"] = LIGHTS["kg"]
+# # Power Socket (duplicate of `kg`)
+# # https://developer.tuya.com/en/docs/iot/s?id=K9gf7o5prgf7s
+# LIGHTS["pc"] = LIGHTS["kg"]
 
 # update the category mapping using the product mapping overrides
 # both tuple should have the same size
