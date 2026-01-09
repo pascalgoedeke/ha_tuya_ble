@@ -893,6 +893,11 @@ async def async_setup_entry(
 ) -> None:
     """Set up the Tuya BLE sensors."""
     data: TuyaBLEData = hass.data[DOMAIN][entry.entry_id]
+
+    # Skip devices without lights
+    if data.device.category in {"kg", "cz", "pc"}:
+        return
+
     descs = get_mapping_by_device(data.device)
 
     if not descs:
