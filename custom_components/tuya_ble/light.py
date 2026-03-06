@@ -13,8 +13,11 @@ from homeassistant.util import color as color_util
 
 from homeassistant.components.tuya.const import (
     DPCode,
-    DPType,
     WorkMode,
+)
+
+from tuya_device_handlers.const import (
+    DPType,
 )
 
 from homeassistant.components.light import (
