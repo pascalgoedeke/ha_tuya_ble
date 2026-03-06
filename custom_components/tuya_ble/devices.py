@@ -22,6 +22,9 @@ from homeassistant.helpers.update_coordinator import (
 
 from homeassistant.components.tuya.const import (
     DPCode,
+)
+
+from tuya_device_handlers.const import (
     DPType,
 )
 
