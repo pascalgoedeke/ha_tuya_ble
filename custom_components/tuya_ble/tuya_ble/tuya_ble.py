@@ -29,7 +29,7 @@ from homeassistant.components.tuya.const import (
     DPCode,
 )
 
-from tuya_device_handlers.const import (
+from ..const import (
     DPType,
 )
 
