@@ -16,9 +16,6 @@ from homeassistant.components.tuya.const import (
     WorkMode,
 )
 
-from tuya_device_handlers.const import (
-    DPType,
-)
 
 from homeassistant.components.light import (
     ATTR_BRIGHTNESS,
@@ -36,7 +33,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.const import EntityCategory
 
-from .const import DOMAIN
+from .const import DOMAIN, DPType
 from .base import IntegerTypeData
 from .util import remap_value
 from .devices import TuyaBLEData, TuyaBLEEntity, TuyaBLEProductInfo
