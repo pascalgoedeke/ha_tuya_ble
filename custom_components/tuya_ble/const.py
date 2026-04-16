@@ -62,6 +62,18 @@ FINGERBOT_BUTTON_EVENT: Final = "fingerbot_button_pressed"
 
 CONNECTED_DP_ID = -2
 
+
+class DPType(StrEnum):
+    """Data point types."""
+
+    BOOLEAN = "Boolean"
+    ENUM = "Enum"
+    INTEGER = "Integer"
+    JSON = "Json"
+    RAW = "Raw"
+    STRING = "String"
+
+
 @dataclass
 class Country:
     """Describe a supported country."""
