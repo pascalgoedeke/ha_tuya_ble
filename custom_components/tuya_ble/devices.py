@@ -24,9 +24,6 @@ from homeassistant.components.tuya.const import (
     DPCode,
 )
 
-from tuya_device_handlers.const import (
-    DPType,
-)
 
 from home_assistant_bluetooth import BluetoothServiceInfoBleak
 from .tuya_ble import (
@@ -40,6 +37,7 @@ from .cloud import HASSTuyaBLEDeviceManager
 from .const import (
     DEVICE_DEF_MANUFACTURER,
     DOMAIN,
+    DPType,
     FINGERBOT_BUTTON_EVENT,
     SET_DISCONNECTED_DELAY,
 )
