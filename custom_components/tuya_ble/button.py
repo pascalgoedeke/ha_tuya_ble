@@ -86,6 +86,12 @@ mapping: dict[str, TuyaBLECategoryButtonMapping] = {
                 ],
             ),
             **dict.fromkeys(
+                ["bo25vaxy"],  # CBF02V2 Fingerbot
+                [
+                    TuyaBLEFingerbotModeMapping(dp_id=1),
+                ],
+            ),
+            **dict.fromkeys(
                 [
                     "blliqpsj",
                     "ndvkgsrm",

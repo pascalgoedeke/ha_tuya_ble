@@ -40,6 +40,7 @@ _Merged several changes by @airy10 and @patriot1889, including light support, fo
   + Fingerbot Plus (product_ids 'blliqpsj', 'ndvkgsrm', 'yiihr7zh', 'neq16kgd'), almost same as original, has sensor button for manual control.
   + CubeTouch 1s (product_id '3yqdo5yt'), built-in battery with USB type C charging.
   + CubeTouch II (product_id 'xhf790if'), built-in battery with USB type C charging.
+  + Finger Robot CBF02V2 (product_id 'bo25vaxy'), low-voltage MCU Fingerbot with click, switch and toggle modes.
 
   All features available in Home Assistant, programming (series of actions) is implemented for Fingerbot Plus.
   For programming exposed entities 'Program' (switch), 'Repeat forever', 'Repeats count', 'Idle position' and 'Program' (text). Format of program text is: 'position[/time];...' where position is in percents, optional time is in seconds (zero if missing).

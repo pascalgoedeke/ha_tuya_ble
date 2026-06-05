@@ -376,6 +376,20 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
                 ),
             ),
             **dict.fromkeys(
+                ["bo25vaxy"],  # CBF02V2 Fingerbot
+                TuyaBLEProductInfo(
+                    name="Finger Robot CBF02V2",
+                    fingerbot=TuyaBLEFingerbotInfo(
+                        switch=1,
+                        mode=2,
+                        up_position=4,
+                        down_position=5,
+                        hold_time=3,
+                        reverse_positions=0,
+                    ),
+                ),
+            ),
+            **dict.fromkeys(
                 ["blliqpsj", "ndvkgsrm", "yiihr7zh", "neq16kgd"],  # device product_ids
                 TuyaBLEProductInfo(
                     name="Fingerbot Plus",

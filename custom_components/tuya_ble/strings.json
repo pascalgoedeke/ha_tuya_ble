@@ -79,9 +79,11 @@
       "fingerbot_mode": {
         "name": "Mode",
         "state": {
+          "click": "Click",
           "program": "Program",
           "push": "Push",
-          "switch": "[%key:component::switch::entity_component::_::name%]"
+          "switch": "[%key:component::switch::entity_component::_::name%]",
+          "toggle": "Toggle"
         }
       },
       "temperature_unit": {
