@@ -112,8 +112,7 @@
           "click": "Click",
           "program": "Program",
           "push": "Push",
-          "switch": "Switch",
-          "toggle": "Toggle"
+          "switch": "Switch"
         }
       },
       "fingerbot_mode_1": {

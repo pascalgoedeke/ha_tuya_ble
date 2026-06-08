@@ -82,8 +82,7 @@
           "click": "Click",
           "program": "Program",
           "push": "Push",
-          "switch": "[%key:component::switch::entity_component::_::name%]",
-          "toggle": "Toggle"
+          "switch": "[%key:component::switch::entity_component::_::name%]"
         }
       },
       "temperature_unit": {

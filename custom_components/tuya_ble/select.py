@@ -143,7 +143,6 @@ mapping: dict[str, TuyaBLECategorySelectMapping] = {
                             options=[
                                 "click",
                                 "switch",
-                                "toggle",
                             ],
                         ),
                     ),
