@@ -133,6 +133,22 @@ mapping: dict[str, TuyaBLECategorySelectMapping] = {
                 ],
             ),
             **dict.fromkeys(
+                ["bo25vaxy"],  # CBF02V2 Fingerbot
+                [
+                    TuyaBLESelectMapping(
+                        dp_id=2,
+                        description=SelectEntityDescription(
+                            key="fingerbot_mode",
+                            entity_category=EntityCategory.CONFIG,
+                            options=[
+                                "click",
+                                "switch",
+                            ],
+                        ),
+                    ),
+                ],
+            ),
+            **dict.fromkeys(
                 [
                     "blliqpsj",
                     "ndvkgsrm",

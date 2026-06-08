@@ -268,6 +268,33 @@ mapping: dict[str, TuyaBLECategoryNumberMapping] = {
                 ],
             ),
             **dict.fromkeys(
+                ["bo25vaxy"],  # CBF02V2 Fingerbot
+                [
+                    TuyaBLENumberMapping(
+                        dp_id=3,
+                        description=TuyaBLEHoldTimeDescription(
+                            native_min_value=0.3,
+                            native_step=0.1,
+                        ),
+                        coefficient=10.0,
+                        is_available=is_fingerbot_in_push_mode,
+                    ),
+                    TuyaBLENumberMapping(
+                        dp_id=4,
+                        description=TuyaBLEUpPositionDescription(
+                            native_max_value=30,
+                        ),
+                    ),
+                    TuyaBLENumberMapping(
+                        dp_id=5,
+                        description=TuyaBLEDownPositionDescription(
+                            native_max_value=30,
+                            native_min_value=0,
+                        ),
+                    ),
+                ],
+            ),
+            **dict.fromkeys(
                 [
                     "blliqpsj",
                     "ndvkgsrm",

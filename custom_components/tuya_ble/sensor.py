@@ -202,6 +202,31 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
                 ],
             ),
             **dict.fromkeys(
+                ["bo25vaxy"],  # CBF02V2 Fingerbot
+                [
+                    TuyaBLESensorMapping(
+                        dp_id=7,
+                        description=SensorEntityDescription(
+                            key="battery_charging",
+                            device_class=SensorDeviceClass.ENUM,
+                            entity_category=EntityCategory.DIAGNOSTIC,
+                            options=[
+                                "none",
+                                "charging",
+                                "charge_done",
+                            ],
+                        ),
+                        icons=[
+                            "mdi:power-plug-off",
+                            "mdi:power-plug-battery",
+                            "mdi:battery-check",
+                        ],
+                        default_value="none",
+                    ),
+                    TuyaBLEBatteryMapping(dp_id=8),
+                ],
+            ),
+            **dict.fromkeys(
                 [
                     "blliqpsj",
                     "ndvkgsrm",

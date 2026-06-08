@@ -109,6 +109,7 @@
       "fingerbot_mode": {
         "name": "Mode",
         "state": {
+          "click": "Click",
           "program": "Program",
           "push": "Push",
           "switch": "Switch"
