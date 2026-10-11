@@ -11,6 +11,15 @@ To prevent battery drain, automatic reconnection is disabled.
 The connection will reestablish automatically when an action is triggered (potentially introducing a slight delay).
 You can also use the provided Home Assistant connection status entities and reconnect / reload buttons to reconnect manually.
 
+> [!WARNING]
+> ### Project Unmaintained
+>
+> This project is no longer actively maintained or updated. Issues and pull requests are not monitored.
+>
+> Please check out [ha-tuya-ble/ha_tuya_ble](https://github.com/ha-tuya-ble/ha_tuya_ble) instead.
+>
+> [![Status: Unmaintained](https://img.shields.io/badge/status-unmaintained-red.svg)](https://github.com/pascalgoedeke/ha_tuya_ble)
+
 ## Installation
 
 Place the `custom_components` folder in your configuration directory (or add its contents to an existing `custom_components` folder). Alternatively install via [HACS](https://hacs.xyz/).
