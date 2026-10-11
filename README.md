@@ -14,9 +14,11 @@ You can also use the provided Home Assistant connection status entities and reco
 > [!WARNING]
 > ### Project Unmaintained
 >
-> This project is no longer actively maintained or updated. Issues and pull requests are not monitored.
->
+> This project is no longer actively maintained or updated. Issues and pull requests are not monitored. <br>
 > Please check out [ha-tuya-ble/ha_tuya_ble](https://github.com/ha-tuya-ble/ha_tuya_ble) instead.
+>
+> I don't use this project anymore myself because I [converted my Fingerbot Touch into an ESPHome device](https://github.com/pascalgoedeke/ha_tuya_ble/blob/main/fingerbot_touch/fingerbot_touch.md). <br>
+> There is also a teardown available of the original Fingerbot Touch.
 >
 > [![Status: Unmaintained](https://img.shields.io/badge/status-unmaintained-red.svg)](https://github.com/pascalgoedeke/ha_tuya_ble)
 
